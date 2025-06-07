@@ -65,10 +65,10 @@ class LoginViewController: BaseViewController {
     }
     
     private func setupButtons() {
-        logInButton.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(didTapSignUp), for: .touchUpInside)
     }
     
-    @objc private func didTapLogin() {
+    @objc private func didTapSignUp() {
         let vc = RegisterScreenVC()
         navigationController?.pushViewController(vc, animated: true)
     }
