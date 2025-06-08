@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginViewController: BaseViewController {
+final class GreetingViewController: BaseViewController {
     
     private let mainImage: UIImageView = {
         let image = UIImageView()
@@ -69,7 +69,8 @@ class LoginViewController: BaseViewController {
     }
     
     @objc private func didTapSignUp() {
-        let vc = RegisterScreenVC()
+        let viewModel = RegisterScreenViewModel()
+        let vc = RegisterScreenVC(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
     

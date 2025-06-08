@@ -11,6 +11,17 @@ import SkyFloatingLabelTextField
 
 class RegisterScreenVC: BaseViewController {
     
+    private let viewModel: RegisterScreenViewModel
+    
+    init(viewModel: RegisterScreenViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .loginBackground
@@ -124,19 +135,21 @@ class RegisterScreenVC: BaseViewController {
         return stackView
     }()
     
-    private let appleButton: UIButton = {
+    private lazy var appleButton: UIButton = {
         let button = UIButton()
         button.setImage(.apple, for: .normal)
         button.backgroundColor = .dark3
         button.layer.cornerRadius = 24
+        button.addTarget(self, action: #selector(didTapAppleButton), for: .touchUpInside)
         return button
     }()
     
-    private let googleButton: UIButton = {
+    private lazy var googleButton: UIButton = {
         let button = UIButton()
         button.setImage(.google, for: .normal)
         button.backgroundColor = .dark3
         button.layer.cornerRadius = 24
+        button.addTarget(self, action: #selector(didTapGoogleButton), for: .touchUpInside)
         return button
     }()
     
@@ -174,6 +187,16 @@ class RegisterScreenVC: BaseViewController {
         setupUI()
     }
     
+    @objc
+    private func didTapAppleButton() {
+        viewModel.goToWebsite(url: "https://www.apple.com")
+    }
+    
+    @objc
+    private func didTapGoogleButton() {
+        viewModel.goToWebsite(url: "https://www.google.com")
+    }
+    
     private func textFieldSetup() {
         let emailUnderline = CALayer()
         emailUnderline.frame = CGRect(x: 0, y: emailTextField.frame.height - 1, width: emailTextField.frame.width, height: 1)
@@ -204,11 +227,6 @@ class RegisterScreenVC: BaseViewController {
         //Subviews of main view
         [backgroundImage, textFieldStackView, buttonStackView, textStackView, underLineView, bottomStackView].forEach(view.addSubview)
         
-        //textStackView subviews
-        
-        //bottomStackView subviews
-        
-        //bottombuttonStackView subviews
         [appleButton, googleButton].forEach(bottomButtonStackView.addArrangedSubview)
         
         [logInButton, signUpButton].forEach(buttonStackView.addArrangedSubview)
