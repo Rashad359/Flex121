@@ -24,43 +24,43 @@ class RegisterScreenVC: BaseViewController {
     
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .loginBackground
+        imageView.image = .signupBackground
         imageView.alpha = 1.0
         return imageView
     }()
     
-    private let underLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .main
-        view.layer.cornerRadius = 1
-        return view
-    }()
-    
-    private let signUpButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Sign up", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.opacity = 1.0
-        return button
-    }()
-    
-    private let logInButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Login", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    
-    private let buttonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 24
-        return stackView
-    }()
+//    private let underLineView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .main
+//        view.layer.cornerRadius = 1
+//        return view
+//    }()
+//    
+//    private let signUpButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Sign up", for: .normal)
+//        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
+//        button.setTitleColor(.white, for: .normal)
+//        button.layer.opacity = 1.0
+//        return button
+//    }()
+//    
+//    private let logInButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Login", for: .normal)
+//        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
+//        button.setTitleColor(.white, for: .normal)
+//        return button
+//    }()
+//    
+//    private let buttonStackView: UIStackView = {
+//        let stackView = UIStackView()
+//        stackView.axis = .horizontal
+//        stackView.alignment = .fill
+//        stackView.distribution = .fill
+//        stackView.spacing = 24
+//        return stackView
+//    }()
     
     private let titleText: UILabel = {
         let label = UILabel()
@@ -225,15 +225,16 @@ class RegisterScreenVC: BaseViewController {
     private func setupUI() {
         
         //Subviews of main view
-        [backgroundImage, textFieldStackView, buttonStackView, textStackView, underLineView, bottomStackView].forEach(view.addSubview)
+//        [backgroundImage, textFieldStackView, buttonStackView, textStackView, underLineView, bottomStackView].forEach(view.addSubview)
+        [backgroundImage, textFieldStackView, textStackView, bottomStackView].forEach(view.addSubview)
         
         [appleButton, googleButton].forEach(bottomButtonStackView.addArrangedSubview)
         
-        [logInButton, signUpButton].forEach(buttonStackView.addArrangedSubview)
-        buttonStackView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(14)
-            make.leading.equalToSuperview().offset(24)
-        }
+//        [logInButton, signUpButton].forEach(buttonStackView.addArrangedSubview)
+//        buttonStackView.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide).offset(14)
+//            make.leading.equalToSuperview().offset(24)
+//        }
         
         backgroundImage.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -253,12 +254,12 @@ class RegisterScreenVC: BaseViewController {
             make.trailing.equalToSuperview().inset(120)
         }
         
-        underLineView.snp.makeConstraints { make in
-            make.leading.equalTo(signUpButton.snp.leading)
-            make.trailing.equalTo(signUpButton.snp.trailing)
-            make.top.equalTo(signUpButton.snp.bottom).offset(4)
-            make.height.equalTo(3)
-        }
+//        underLineView.snp.makeConstraints { make in
+//            make.leading.equalTo(signUpButton.snp.leading)
+//            make.trailing.equalTo(signUpButton.snp.trailing)
+//            make.top.equalTo(signUpButton.snp.bottom).offset(4)
+//            make.height.equalTo(3)
+//        }
         
         [bottomButtonStackView, proceedButton].forEach(bottomStackView.addArrangedSubview)
         bottomStackView.snp.makeConstraints { make in

@@ -66,12 +66,18 @@ final class GreetingViewController: BaseViewController {
     
     private func setupButtons() {
         signUpButton.addTarget(self, action: #selector(didTapSignUp), for: .touchUpInside)
+        logInButton.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
     }
     
     @objc private func didTapSignUp() {
-        let viewModel = RegisterScreenViewModel()
-        let vc = RegisterScreenVC(viewModel: viewModel)
-        navigationController?.pushViewController(vc, animated: true)
+        let pageVC = SignupPageController(startingPage: .register)
+        navigationController?.setViewControllers([pageVC], animated: true)
+    }
+    
+    @objc
+    private func didTapLogin() {
+        let pageVC = SignupPageController(startingPage: .login)
+        navigationController?.setViewControllers([pageVC], animated: true)
     }
     
     private func setupUI() {
