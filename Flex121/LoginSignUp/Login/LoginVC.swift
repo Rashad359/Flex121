@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class LoginVC: BaseViewController {
     
@@ -99,7 +100,7 @@ class LoginVC: BaseViewController {
         return stackView
     }()
     
-    private let proceedButton: UIButton = {
+    private lazy var proceedButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
         button.widthAnchor.constraint(equalToConstant: 124).isActive = true
@@ -107,6 +108,7 @@ class LoginVC: BaseViewController {
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.tintColor = .white
+        button.addTarget(self, action: #selector(didTapSignIn), for: .touchUpInside)
         return button
     }()
     
@@ -117,6 +119,19 @@ class LoginVC: BaseViewController {
         stackView.distribution = .equalSpacing
         return stackView
     }()
+    
+    @objc
+    private func didTapSignIn() {
+        guard let emailText = emailTextField.text,
+                let passwordText = passwordTextField.text else { return }
+        Auth.auth().signIn(withEmail: emailText, password: passwordText) { _, error in
+            if let error {
+                self.createAlert(title: "Something went wrong", message: error.localizedDescription)
+            }
+            
+            //Else case, meaning go to the next stage
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

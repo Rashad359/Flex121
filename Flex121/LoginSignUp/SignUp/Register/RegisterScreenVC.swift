@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import SkyFloatingLabelTextField
+import FirebaseAuth
 
 class RegisterScreenVC: BaseViewController {
     
@@ -28,39 +29,6 @@ class RegisterScreenVC: BaseViewController {
         imageView.alpha = 1.0
         return imageView
     }()
-    
-//    private let underLineView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = .main
-//        view.layer.cornerRadius = 1
-//        return view
-//    }()
-//    
-//    private let signUpButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Sign up", for: .normal)
-//        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-//        button.setTitleColor(.white, for: .normal)
-//        button.layer.opacity = 1.0
-//        return button
-//    }()
-//    
-//    private let logInButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Login", for: .normal)
-//        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-//        button.setTitleColor(.white, for: .normal)
-//        return button
-//    }()
-//    
-//    private let buttonStackView: UIStackView = {
-//        let stackView = UIStackView()
-//        stackView.axis = .horizontal
-//        stackView.alignment = .fill
-//        stackView.distribution = .fill
-//        stackView.spacing = 24
-//        return stackView
-//    }()
     
     private let titleText: UILabel = {
         let label = UILabel()
@@ -162,7 +130,7 @@ class RegisterScreenVC: BaseViewController {
         return stackView
     }()
     
-    private let proceedButton: UIButton = {
+    private lazy var proceedButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.widthAnchor.constraint(equalToConstant: 124).isActive = true
@@ -170,6 +138,7 @@ class RegisterScreenVC: BaseViewController {
         button.layer.cornerRadius = 16
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.tintColor = .white
+        button.addTarget(self, action: #selector(didTapSignIn), for: .touchUpInside)
         return button
     }()
     
@@ -180,6 +149,22 @@ class RegisterScreenVC: BaseViewController {
         stackView.distribution = .equalSpacing
         return stackView
     }()
+    
+    @objc
+    private func didTapSignIn() {
+        guard let emailText = emailTextField.text,
+              let passwordText = passwordTextField.text else { return }
+        Auth.auth().createUser(withEmail: emailText, password: passwordText) { _, error in
+            if let error {
+                let alert = UIAlertController(title: "Something went wrong", message: error.localizedDescription, preferredStyle: .alert)
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+                alert.addAction(cancel)
+                self.present(alert, animated: true)
+            }
+            
+            //Else case, meaning go to the next stage
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
