@@ -31,4 +31,8 @@ class OnboardingViewModel {
             isButtonHidden: false
         ),
     ]
+    
+    func goToGreeting() {
+        coordinator.goToGreeting()
+    }
 }

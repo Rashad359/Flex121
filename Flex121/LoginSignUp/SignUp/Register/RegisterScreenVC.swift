@@ -162,7 +162,7 @@ class RegisterScreenVC: BaseViewController {
                 self.present(alert, animated: true)
             }
             
-            //Else case, meaning go to the next stage
+            self.viewModel.goToPosition()
         }
     }
     
@@ -209,17 +209,9 @@ class RegisterScreenVC: BaseViewController {
     
     private func setupUI() {
         
-        //Subviews of main view
-//        [backgroundImage, textFieldStackView, buttonStackView, textStackView, underLineView, bottomStackView].forEach(view.addSubview)
         [backgroundImage, textFieldStackView, textStackView, bottomStackView].forEach(view.addSubview)
         
         [appleButton, googleButton].forEach(bottomButtonStackView.addArrangedSubview)
-        
-//        [logInButton, signUpButton].forEach(buttonStackView.addArrangedSubview)
-//        buttonStackView.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide).offset(14)
-//            make.leading.equalToSuperview().offset(24)
-//        }
         
         backgroundImage.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -238,13 +230,6 @@ class RegisterScreenVC: BaseViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(120)
         }
-        
-//        underLineView.snp.makeConstraints { make in
-//            make.leading.equalTo(signUpButton.snp.leading)
-//            make.trailing.equalTo(signUpButton.snp.trailing)
-//            make.top.equalTo(signUpButton.snp.bottom).offset(4)
-//            make.height.equalTo(3)
-//        }
         
         [bottomButtonStackView, proceedButton].forEach(bottomStackView.addArrangedSubview)
         bottomStackView.snp.makeConstraints { make in

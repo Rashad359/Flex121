@@ -126,8 +126,10 @@ extension OnboardingVC: UICollectionViewDelegate, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingCell.identifier, for: indexPath) as? OnboardingCell else { return UICollectionViewCell() }
         cell.configure(viewModel.items[indexPath.row])
         cell.goToLogin = {[weak self] in
-            let vc = GreetingViewController()
-            self?.navigationController?.setViewControllers([vc], animated: true)
+//            let vc = GreetingViewController()
+//            let vc = GreetingBuilder(coordinator: <#T##AppCoordinator#>).build()
+//            self?.navigationController?.setViewControllers([vc], animated: true)
+            self?.viewModel.goToGreeting()
         }
         return cell
     }

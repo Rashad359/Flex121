@@ -9,6 +9,17 @@ import UIKit
 
 final class GreetingViewController: BaseViewController {
     
+    private let viewModel: GreetingViewModel
+    
+    init(viewModel: GreetingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     private let mainImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -70,14 +81,17 @@ final class GreetingViewController: BaseViewController {
     }
     
     @objc private func didTapSignUp() {
-        let pageVC = SignupPageController(startingPage: .register)
-        navigationController?.setViewControllers([pageVC], animated: true)
+//        let pageVC = SignupPageController(startingPage: .register)
+//        let pageVC = SignupPageBuilder(coordinator: <#T##EntryCoordinator#>).build(with: <#T##SignupPage#>)
+//        navigationController?.setViewControllers([pageVC], animated: true)
+        viewModel.goToSignup()
     }
     
     @objc
     private func didTapLogin() {
-        let pageVC = SignupPageController(startingPage: .login)
-        navigationController?.setViewControllers([pageVC], animated: true)
+//        let pageVC = SignupPageController(startingPage: .login)
+//        navigationController?.setViewControllers([pageVC], animated: true)
+        viewModel.goToLogin()
     }
     
     private func setupUI() {

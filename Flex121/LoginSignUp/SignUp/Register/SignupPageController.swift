@@ -15,19 +15,31 @@ enum SignupPage {
 
 class SignupPageController: UIPageViewController {
     
+    private let coordinator: AppCoordinator
+    
     private let startingPage: SignupPage
     
-    init(startingPage: SignupPage) {
+//    init(startingPage: SignupPage) {
+//        self.startingPage = startingPage
+//        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        fatalError()
+//    }
+    
+    init(coordinator: AppCoordinator, startingPage: SignupPage) {
+        self.coordinator = coordinator
         self.startingPage = startingPage
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private lazy var pages: [UIViewController] = [
-        RegisterBuilder().build(),
+        RegisterBuilder(coordinator: coordinator).build(),
         LoginBuilder().build()
     ]
     

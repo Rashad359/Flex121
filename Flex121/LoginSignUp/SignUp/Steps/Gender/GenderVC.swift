@@ -1,5 +1,5 @@
 //
-//  PositionVC.swift
+//  GenderVC.swift
 //  Flex121
 //
 //  Created by Rəşad Əliyev on 6/25/25.
@@ -7,11 +7,23 @@
 
 import UIKit
 
-final class PositionVC: BaseViewController {
+final class GenderVC: BaseViewController {
+    
+    private let viewModel: GenderViewModel
+    
+    init(viewModel: GenderViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     
     private let TitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "what's your current position?".uppercased()
+        label.text = "tell us about yourself".uppercased()
         label.font = UIFont(name: Fonts.archivo.fontName, size: 20)
         label.textColor = .white
         label.numberOfLines = .zero
@@ -21,7 +33,7 @@ final class PositionVC: BaseViewController {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "To give us a better experience we need to know your position"
+        label.text = "To give us a better experience we need to know your gender"
         label.font = UIFont(name: Fonts.archivo.fontName, size: 12)
         label.textColor = .white
         label.numberOfLines = .zero
@@ -38,38 +50,68 @@ final class PositionVC: BaseViewController {
         return stackView
     }()
     
-    private lazy var trainerBackground: UIView = {
+    private lazy var maleBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .underline
         view.layer.cornerRadius = 66
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTrainer))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMale))
         view.addGestureRecognizer(tapGesture)
         return view
     }()
     
-    private lazy var EnthusiastBackground: UIView = {
+    private lazy var femaleBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .underline
         view.layer.cornerRadius = 66
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapEnthusiast))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFemale))
         view.addGestureRecognizer(tapGesture)
         return view
     }()
     
-    private let trainerLabel: UILabel = {
+    private let maleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Trainer"
-        label.font = UIFont(name: Fonts.archivo.fontName, size: 18)
+        label.text = "Male"
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .white
         return label
     }()
     
-    private let enthusiastLabel: UILabel = {
+    private let maleGenderImage: UIImageView = {
+        let image = UIImageView()
+        image.image = .maleGender
+        return image
+    }()
+    
+    private let maleStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    private let femaleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Enthusiast"
-        label.font = UIFont(name: Fonts.archivo.fontName, size: 18)
+        label.text = "Female"
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .white
         return label
+    }()
+    
+    private let femaleGenderImage: UIImageView = {
+        let image = UIImageView()
+        image.image = .femaleGender
+        return image
+    }()
+    
+    private let femaleStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        return stackView
     }()
     
     private let mainStackView: UIStackView = {
@@ -114,18 +156,18 @@ final class PositionVC: BaseViewController {
     }()
     
     @objc
-    private func didTapEnthusiast() {
+    private func didTapFemale() {
         UIView.animate(withDuration: 0.5) {
-            self.EnthusiastBackground.backgroundColor = .main
-            self.trainerBackground.backgroundColor = .underline
+            self.femaleBackground.backgroundColor = .main
+            self.maleBackground.backgroundColor = .underline
         }
     }
     
     @objc
-    private func didTapTrainer() {
+    private func didTapMale() {
         UIView.animate(withDuration: 0.5) {
-            self.trainerBackground.backgroundColor = .main
-            self.EnthusiastBackground.backgroundColor = .underline
+            self.maleBackground.backgroundColor = .main
+            self.femaleBackground.backgroundColor = .underline
         }
     }
     
@@ -150,28 +192,30 @@ final class PositionVC: BaseViewController {
         [TitleLabel, subtitleLabel].forEach(textStackView.addArrangedSubview)
         textStackView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(36)
-            make.horizontalEdges.equalToSuperview().inset(52)
+            make.horizontalEdges.equalToSuperview().inset(35)
         }
         
         view.addSubview(mainStackView)
-        [trainerBackground, EnthusiastBackground].forEach(mainStackView.addArrangedSubview)
+        [maleBackground, femaleBackground].forEach(mainStackView.addArrangedSubview)
         mainStackView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
-        trainerBackground.addSubview(trainerLabel)
-        trainerBackground.snp.makeConstraints { make in
+        maleBackground.addSubview(maleStackView)
+        [maleGenderImage, maleLabel].forEach(maleStackView.addArrangedSubview)
+        maleBackground.snp.makeConstraints { make in
             make.size.equalTo(132)
         }
-        trainerLabel.snp.makeConstraints { make in
+        maleStackView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
-        EnthusiastBackground.addSubview(enthusiastLabel)
-        EnthusiastBackground.snp.makeConstraints { make in
+        femaleBackground.addSubview(femaleStackView)
+        [femaleGenderImage, femaleLabel].forEach(femaleStackView.addArrangedSubview)
+        femaleBackground.snp.makeConstraints { make in
             make.size.equalTo(132)
         }
-        enthusiastLabel.snp.makeConstraints { make in
+        femaleStackView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
@@ -183,7 +227,3 @@ final class PositionVC: BaseViewController {
         }
     }
 }
-
-//#Preview {
-//    PositionVC()
-//}
