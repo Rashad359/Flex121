@@ -178,7 +178,7 @@ final class GenderVC: BaseViewController {
     
     @objc
     private func didTapNext() {
-        //Push to next view controller
+        viewModel.goToAge()
     }
     
     override func viewDidLoad() {

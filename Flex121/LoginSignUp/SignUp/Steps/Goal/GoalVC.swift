@@ -1,17 +1,17 @@
 //
-//  AgeViewController.swift
+//  HeightVC.swift
 //  Flex121
 //
-//  Created by Rəşad Əliyev on 7/5/25.
+//  Created by Rəşad Əliyev on 7/7/25.
 //
 
 import UIKit
 
-final class AgeVC: BaseViewController {
+final class GoalVC: BaseViewController {
     
-    private let viewModel: AgeViewModel
+    private let viewModel: GoalViewModel
     
-    init(viewModel: AgeViewModel) {
+    init(viewModel: GoalViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -20,11 +20,17 @@ final class AgeVC: BaseViewController {
         fatalError()
     }
     
-    private let numbers = Array(1...100)
+    private let goals: [String] = [
+        "Gain Weight",
+        "Lose weight",
+        "Get fitter",
+        "Gain more flexible",
+        "Learn the basics"
+    ]
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "how old are you?".uppercased()
+        label.text = "what's your goal?".uppercased()
         label.font = UIFont(name: Fonts.archivo.fontName, size: 20)
         label.textColor = .white
         label.numberOfLines = .zero
@@ -63,7 +69,6 @@ final class AgeVC: BaseViewController {
         topline.backgroundColor = .main
         topline.translatesAutoresizingMaskIntoConstraints = false
         topline.heightAnchor.constraint(equalToConstant: 3).isActive = true
-        topline.widthAnchor.constraint(equalToConstant: 113).isActive = true
         return topline
     }()
     
@@ -114,7 +119,7 @@ final class AgeVC: BaseViewController {
     
     @objc
     private func didTapNext() {
-        viewModel.goToWeight()
+        viewModel.goToLevel()
     }
     
     override func viewDidLoad() {
@@ -134,21 +139,21 @@ final class AgeVC: BaseViewController {
         view.addSubview(pickerView)
         pickerView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(135)
+            make.horizontalEdges.equalToSuperview().inset(64)
             make.height.equalTo(350)
         }
         
         [topLine, bottomLine].forEach(view.addSubview)
         topLine.snp.makeConstraints { make in
             make.height.equalTo(3)
-            make.width.equalTo(113)
+            make.width.equalTo(250)
             make.centerX.equalTo(pickerView.snp.centerX)
             make.centerY.equalTo(pickerView.snp.centerY).offset(-38)
         }
         
         bottomLine.snp.makeConstraints { make in
             make.height.equalTo(3)
-            make.width.equalTo(113)
+            make.width.equalTo(250)
             make.centerX.equalTo(pickerView.snp.centerX)
             make.centerY.equalTo(pickerView.snp.centerY).offset(38)
         }
@@ -162,9 +167,9 @@ final class AgeVC: BaseViewController {
     }
 }
 
-extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
+extension GoalVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return numbers.count
+        return goals.count
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -177,17 +182,11 @@ extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let label = UILabel()
-        label.text = "\(numbers[row])"
+        label.text = "\(goals[row])"
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textColor = .white
         
         return label
     }
-    
-    
 }
-
-//#Preview {
-//    AgeVC()
-//}

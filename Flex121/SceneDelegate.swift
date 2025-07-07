@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator = AppCoordinator(navigationController: navigationController)
         coordinator?.start()
         window?.rootViewController = navigationController
+//        window?.rootViewController = GoalVC(viewModel: viewModel)
         window?.makeKeyAndVisible()
     }
 

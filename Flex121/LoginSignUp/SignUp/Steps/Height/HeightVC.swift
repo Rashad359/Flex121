@@ -1,17 +1,16 @@
 //
-//  AgeViewController.swift
+//  HeightVC.swift
 //  Flex121
 //
-//  Created by Rəşad Əliyev on 7/5/25.
+//  Created by Rəşad Əliyev on 7/7/25.
 //
-
 import UIKit
 
-final class AgeVC: BaseViewController {
+final class HeightVC: BaseViewController {
     
-    private let viewModel: AgeViewModel
+    private let viewModel: HeightViewModel
     
-    init(viewModel: AgeViewModel) {
+    init(viewModel: HeightViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -20,11 +19,11 @@ final class AgeVC: BaseViewController {
         fatalError()
     }
     
-    private let numbers = Array(1...100)
+    private let numbers = Array(100...250)
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "how old are you?".uppercased()
+        label.text = "what's your height?".uppercased()
         label.font = UIFont(name: Fonts.archivo.fontName, size: 20)
         label.textColor = .white
         label.numberOfLines = .zero
@@ -114,7 +113,7 @@ final class AgeVC: BaseViewController {
     
     @objc
     private func didTapNext() {
-        viewModel.goToWeight()
+        viewModel.goToGoal()
     }
     
     override func viewDidLoad() {
@@ -162,7 +161,7 @@ final class AgeVC: BaseViewController {
     }
 }
 
-extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
+extension HeightVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return numbers.count
     }
@@ -187,7 +186,3 @@ extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
 }
-
-//#Preview {
-//    AgeVC()
-//}

@@ -1,20 +1,20 @@
 //
-//  GenderViewModel.swift
+//  GoalViewModel.swift
 //  Flex121
 //
-//  Created by Rəşad Əliyev on 6/27/25.
+//  Created by Rəşad Əliyev on 7/7/25.
 //
 
 import UIKit
 
-class GenderViewModel {
+class GoalViewModel {
     private let coordinator: AppCoordinator
     
     init(coordinator: AppCoordinator) {
         self.coordinator = coordinator
     }
     
-    func goToAge() {
-        coordinator.navigateToAge()
+    func goToLevel() {
+        coordinator.navigateToLevel()
     }
 }

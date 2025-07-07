@@ -148,7 +148,6 @@ final class PositionVC: BaseViewController {
     
     @objc
     private func didTapNext() {
-        //Push to next view controller
         viewModel.goToGender()
     }
     

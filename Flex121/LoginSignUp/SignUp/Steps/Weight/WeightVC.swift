@@ -1,17 +1,17 @@
 //
-//  AgeViewController.swift
+//  WeightVC.swift
 //  Flex121
 //
-//  Created by Rəşad Əliyev on 7/5/25.
+//  Created by Rəşad Əliyev on 7/7/25.
 //
 
 import UIKit
 
-final class AgeVC: BaseViewController {
+final class WeightVC: BaseViewController {
     
-    private let viewModel: AgeViewModel
+    private let viewModel: WeightViewModel
     
-    init(viewModel: AgeViewModel) {
+    init(viewModel: WeightViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -20,11 +20,11 @@ final class AgeVC: BaseViewController {
         fatalError()
     }
     
-    private let numbers = Array(1...100)
+    private let numbers = Array(40...200)
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "how old are you?".uppercased()
+        label.text = "what's your weight?".uppercased()
         label.font = UIFont(name: Fonts.archivo.fontName, size: 20)
         label.textColor = .white
         label.numberOfLines = .zero
@@ -34,7 +34,7 @@ final class AgeVC: BaseViewController {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "This helps us to provids a personalized plan"
+        label.text = "This information always can be changed"
         label.font = UIFont(name: Fonts.archivo.fontName, size: 12)
         label.textColor = .white
         label.numberOfLines = .zero
@@ -73,6 +73,14 @@ final class AgeVC: BaseViewController {
         botline.translatesAutoresizingMaskIntoConstraints = false
         botline.heightAnchor.constraint(equalToConstant: 3).isActive = true
         return botline
+    }()
+    
+    private let kgLabel: UILabel = {
+        let label = UILabel()
+        label.text = "KG"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        return label
     }()
     
     private lazy var backButton: UIButton = {
@@ -114,7 +122,7 @@ final class AgeVC: BaseViewController {
     
     @objc
     private func didTapNext() {
-        viewModel.goToWeight()
+        viewModel.goToHeight()
     }
     
     override func viewDidLoad() {
@@ -134,23 +142,30 @@ final class AgeVC: BaseViewController {
         view.addSubview(pickerView)
         pickerView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(135)
+            make.horizontalEdges.equalToSuperview().inset(150)
             make.height.equalTo(350)
         }
         
         [topLine, bottomLine].forEach(view.addSubview)
         topLine.snp.makeConstraints { make in
             make.height.equalTo(3)
-            make.width.equalTo(113)
+            make.width.equalTo(83)
             make.centerX.equalTo(pickerView.snp.centerX)
-            make.centerY.equalTo(pickerView.snp.centerY).offset(-38)
+            make.centerY.equalTo(pickerView.snp.centerY).offset(-36)
         }
         
         bottomLine.snp.makeConstraints { make in
             make.height.equalTo(3)
-            make.width.equalTo(113)
+            make.width.equalTo(83)
             make.centerX.equalTo(pickerView.snp.centerX)
             make.centerY.equalTo(pickerView.snp.centerY).offset(38)
+        }
+        
+        view.addSubview(kgLabel)
+        kgLabel.snp.makeConstraints { make in
+            make.leading.equalTo(pickerView.snp.trailing)
+            make.centerY.equalTo(pickerView.snp.centerY)
+//            make.bottom.equalTo(pickerView.snp.bottom).inset(140)
         }
         
         view.addSubview(bottomStackView)
@@ -162,7 +177,7 @@ final class AgeVC: BaseViewController {
     }
 }
 
-extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
+extension WeightVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return numbers.count
     }
@@ -187,7 +202,3 @@ extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
 }
-
-//#Preview {
-//    AgeVC()
-//}

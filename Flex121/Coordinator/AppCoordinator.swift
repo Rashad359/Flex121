@@ -47,4 +47,29 @@ class AppCoordinator: Coordinator {
         let genderVC = GenderBuilder(coordinator: self).build()
         navigationController.pushViewController(genderVC, animated: true)
     }
+    
+    func navigateToAge() {
+        let ageVC = AgeBuilder(coordinator: self).buid()
+        navigationController.pushViewController(ageVC, animated: true)
+    }
+    
+    func navigateToWeight() {
+        let weightVC = WeightBuilder(coordinator: self).build()
+        navigationController.pushViewController(weightVC, animated: true)
+    }
+    
+    func navigateToHeight() {
+        let heightVC = HeightBuilder(coordinator: self).build()
+        navigationController.pushViewController(heightVC, animated: true)
+    }
+    
+    func navigateToGoal() {
+        let goalVC = GoalBuilder(coordinator: self).build()
+        navigationController.pushViewController(goalVC, animated: true)
+    }
+    
+    func navigateToLevel() {
+        let levelVC = LevelBuilder(coordinator: self).build()
+        navigationController.pushViewController(levelVC, animated: true)
+    }
 }
