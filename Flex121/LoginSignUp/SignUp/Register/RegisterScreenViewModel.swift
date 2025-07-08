@@ -7,12 +7,30 @@
 
 import UIKit
 
+protocol RegisterScreenProtocol: AnyObject {
+    func didSignUp()
+    func error(_ error: Error)
+}
+
 class RegisterScreenViewModel {
     
+    enum State {
+        case loading
+        case loaded
+        case error
+    }
+    
     private let coordinator: AppCoordinator
+    private let firebase: DBSession = DependencyContainer.shared.firebaseManger
+    
+    private weak var delegate: RegisterScreenProtocol? = nil
     
     init(coordinator: AppCoordinator) {
         self.coordinator = coordinator
+    }
+    
+    func subscribe(_ delegate: RegisterScreenProtocol) {
+        self.delegate = delegate
     }
     
     func goToWebsite(url: String) {
@@ -22,5 +40,16 @@ class RegisterScreenViewModel {
     
     func goToPosition() {
         coordinator.navigateToPosition()
+    }
+    
+    func signUp(with email: String, password: String) {
+        firebase.signUp(with: email, password: password) { result in
+            switch result {
+            case .success(_):
+                self.delegate?.didSignUp()
+            case .failure(let error):
+                self.delegate?.error(error)
+            }
+        }
     }
 }

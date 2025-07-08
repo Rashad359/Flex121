@@ -154,16 +154,7 @@ class RegisterScreenVC: BaseViewController {
     private func didTapSignIn() {
         guard let emailText = emailTextField.text,
               let passwordText = passwordTextField.text else { return }
-        Auth.auth().createUser(withEmail: emailText, password: passwordText) { _, error in
-            if let error {
-                let alert = UIAlertController(title: "Something went wrong", message: error.localizedDescription, preferredStyle: .alert)
-                let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-                alert.addAction(cancel)
-                self.present(alert, animated: true)
-            }
-            
-            self.viewModel.goToPosition()
-        }
+        viewModel.signUp(with: emailText, password: passwordText)
     }
     
     override func viewDidLoad() {
@@ -245,5 +236,18 @@ class RegisterScreenVC: BaseViewController {
             make.size.equalTo(48)
         }
         
+        viewModel.subscribe(self)
     }
+}
+
+extension RegisterScreenVC: RegisterScreenProtocol {
+    func didSignUp() {
+        self.viewModel.goToPosition()
+    }
+    
+    func error(_ error: any Error) {
+        self.createAlert(title: "Something went wrong", message: error.localizedDescription)
+    }
+    
+    
 }

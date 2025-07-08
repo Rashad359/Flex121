@@ -123,14 +123,8 @@ class LoginVC: BaseViewController {
     @objc
     private func didTapSignIn() {
         guard let emailText = emailTextField.text,
-                let passwordText = passwordTextField.text else { return }
-        Auth.auth().signIn(withEmail: emailText, password: passwordText) { _, error in
-            if let error {
-                self.createAlert(title: "Something went wrong", message: error.localizedDescription)
-            }
-            
-            //Else case, meaning go to the next stage
-        }
+              let passwordText = passwordTextField.text else { return }
+        viewModel.logIn(with: emailText, password: passwordText)
     }
     
     override func viewDidLoad() {
@@ -175,6 +169,8 @@ class LoginVC: BaseViewController {
         googleButton.snp.makeConstraints { make in
             make.size.equalTo(48)
         }
+        
+        viewModel.subscribe(self)
     }
     
     private func textFieldSetup() {
@@ -206,4 +202,17 @@ class LoginVC: BaseViewController {
     private func didTapGoogleButton() {
         viewModel.goToWebsite(url: "https://www.google.com")
     }
+}
+
+extension LoginVC: LoginViewModelDelegate {
+    func didLogin() {
+        //Go to other screen
+        print("Success")
+    }
+    
+    func error(_ error: any Error) {
+        self.createAlert(title: "Something went wrong", message: error.localizedDescription)
+    }
+    
+    
 }

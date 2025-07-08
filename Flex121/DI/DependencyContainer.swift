@@ -8,5 +8,9 @@
 import UIKit
 
 class DependencyContainer {
+    static let shared = DependencyContainer()
     
+    lazy var firebaseManger: DBSession = {
+        return FirebaseAdapter()
+    }()
 }
