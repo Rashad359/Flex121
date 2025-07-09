@@ -187,7 +187,3 @@ extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
 }
-
-//#Preview {
-//    AgeVC()
-//}

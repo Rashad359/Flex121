@@ -249,7 +249,3 @@ class MainViewController: UIViewController {
         weightPicker.setWeight(46.0)
     }
 }
-
-#Preview {
-    MainViewController()
-}

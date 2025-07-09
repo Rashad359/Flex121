@@ -143,7 +143,3 @@ class NumberPickerViewController: BaseViewController, UIPickerViewDelegate, UIPi
             return label
         }
 }
-
-//#Preview {
-//    NumberPickerViewController()
-//}

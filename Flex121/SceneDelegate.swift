@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        coordinator = AppCoordinator(navigationController: navigationController)
 //        coordinator?.start()
 //        window?.rootViewController = navigationController
-        window?.rootViewController = TrainersVC()
+        window?.rootViewController = HomeController()
         window?.makeKeyAndVisible()
     }
 

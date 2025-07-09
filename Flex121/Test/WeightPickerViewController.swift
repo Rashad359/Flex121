@@ -111,9 +111,3 @@ extension WeightPickerViewController: UIScrollViewDelegate {
         weightLabel.text = "\(value) kg"
     }
 }
-
-
-
-//#Preview {
-//    WeightPickerViewController()
-//}

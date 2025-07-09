@@ -67,7 +67,7 @@ extension TrainersVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrainersCell.identifier, for: indexPath) as? TrainersCell else { return UICollectionViewCell() }
-        cell.configure(.init(rating: "4.8", category: "Hight intensity", experience: "4 years experience", trainerImage: .lifting, trainerName: "Richard Will"))
+        cell.configure(.init(rating: "4.8", category: "Hight intensity Training ", experience: "4 years experience", trainerImage: .lifting, trainerName: "Richard Will"))
         return cell
     }
 }
