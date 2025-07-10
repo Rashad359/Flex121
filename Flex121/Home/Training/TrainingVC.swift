@@ -11,5 +11,10 @@ class TrainingVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    private func setupUI() {
+        
     }
 }

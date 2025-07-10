@@ -7,9 +7,9 @@
 
 import UIKit
 
-class CalendarEntryCell: UICollectionViewCell {
+class EntryCell: UICollectionViewCell {
     
-    private let calenderLabel: UILabel = {
+    private let entryLabel: UILabel = {
         let label = UILabel()
         label.text = "Calendar"
         label.textColor = .white
@@ -39,7 +39,7 @@ class CalendarEntryCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(stackView)
-        [calenderLabel, forwardIcon].forEach(stackView.addArrangedSubview)
+        [entryLabel, forwardIcon].forEach(stackView.addArrangedSubview)
         stackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(24)
             make.top.equalToSuperview().offset(32)
@@ -49,5 +49,15 @@ class CalendarEntryCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension EntryCell {
+    struct Item {
+        let entryName: String
+    }
+    
+    func configure(_ item: Item) {
+        entryLabel.text = item.entryName
     }
 }

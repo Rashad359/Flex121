@@ -10,10 +10,22 @@ import UIKit
 class HomeController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         setupTabs()
         
+        setupTabBar()
+    }
+    
+    private func setupTabBar() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .tabbarBackground
+        appearance.stackedLayoutAppearance.selected.iconColor = .main
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.main]
+        
+        appearance.stackedLayoutAppearance.normal.iconColor = .white
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        self.tabBar.standardAppearance = appearance
         self.tabBar.backgroundColor = .tabbarBackground
         self.tabBar.tintColor = .main
         self.tabBar.unselectedItemTintColor = .white
@@ -37,5 +49,3 @@ class HomeController: UITabBarController {
         return nav
     }
 }
-
-
