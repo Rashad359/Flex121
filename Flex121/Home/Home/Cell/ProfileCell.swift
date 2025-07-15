@@ -8,13 +8,26 @@
 import UIKit
 import SnapKit
 
-class ProfileCell: UICollectionViewCell {
+protocol ProfileCellDelegate: AnyObject {
+    func openProfile()
+}
+
+class ProfileCell: UITableViewCell {
     
-    private let profileImage: UIImageView = {
+    private weak var delegate: ProfileCellDelegate? = nil
+    
+    func subscribe(_ delegate: ProfileCellDelegate) {
+        self.delegate = delegate
+    }
+    
+    private lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .genericUser
         imageView.layer.cornerRadius = 24
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
+        imageView.addGestureRecognizer(tapGesture)
         return imageView
     }()
     
@@ -73,8 +86,13 @@ class ProfileCell: UICollectionViewCell {
         return stackView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    @objc
+    private func didTapProfile() {
+        self.delegate?.openProfile()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
     }
@@ -83,13 +101,21 @@ class ProfileCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    private func profileGesture() {
+//        private let tapGesture = UITapGestureRecognizer(target: <#T##Any?#>, action: <#T##Selector?#>)
+//        profileImage.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
+//    }
+    
     private func setupUI() {
+        selectionStyle = .none
+        backgroundColor = .background
         contentView.addSubview(mainStackView)
         rightView.addSubview(messageLogo)
         [leftStackView, rightView].forEach(mainStackView.addArrangedSubview)
         mainStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.horizontalEdges.equalToSuperview().inset(24)
+            make.bottom.equalToSuperview().offset(0)
         }
         [profileImage, textStackView].forEach(leftStackView.addArrangedSubview)
         [profileName, messageToUser].forEach(textStackView.addArrangedSubview)

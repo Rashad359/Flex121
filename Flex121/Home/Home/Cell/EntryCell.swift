@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EntryCell: UICollectionViewCell {
+class EntryCell: UITableViewCell {
     
     private let entryLabel: UILabel = {
         let label = UILabel()
@@ -31,13 +31,15 @@ class EntryCell: UICollectionViewCell {
         return stackView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
     }
     
     private func setupUI() {
+        selectionStyle = .none
+        backgroundColor = .background
         contentView.addSubview(stackView)
         [entryLabel, forwardIcon].forEach(stackView.addArrangedSubview)
         stackView.snp.makeConstraints { make in

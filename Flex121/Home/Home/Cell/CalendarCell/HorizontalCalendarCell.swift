@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalCalendarCell: UICollectionViewCell {
+class HorizontalCalendarCell: UITableViewCell {
 
     private var items: [CalendarCell.Item] = []
     private var selectedIndex: Int = 0
@@ -23,13 +23,19 @@ class HorizontalCalendarCell: UICollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CalendarCell.self, forCellWithReuseIdentifier: "CalendarCell")
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .background
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupUI()
+    }
+    
+    private func setupUI() {
+        selectionStyle = .none
         contentView.addSubview(calendarCollectionView)
         calendarCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

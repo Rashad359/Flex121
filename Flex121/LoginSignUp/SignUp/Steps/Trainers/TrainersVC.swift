@@ -9,6 +9,17 @@ import UIKit
 
 class TrainersVC: BaseViewController {
     
+    private var viewModel: TrainersViewModel
+    
+    init(viewModel: TrainersViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -22,13 +33,20 @@ class TrainersVC: BaseViewController {
         return collectionView
     }()
     
-    private let startButton: BaseButton = {
+    private lazy var startButton: BaseButton = {
         let button = BaseButton(type: .system)
         button.setTitle("Start", for: .normal)
         button.backgroundColor = .main
         button.titleLabel?.font = UIFont(name: Fonts.EuclidSemibold.fontName, size: 17)
+        button.addTarget(self, action: #selector(didTapStart), for: .touchUpInside)
         return button
     }()
+    
+    @objc
+    private func didTapStart() {
+//        navigationController?.pushViewController(HomeController(), animated: true)
+        viewModel.goToHome()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

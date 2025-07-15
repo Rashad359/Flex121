@@ -7,11 +7,12 @@
 
 import UIKit
 
-protocol Coordinator {
+protocol Coordinator: AnyObject {
     func start()
 }
 
 class AppCoordinator: Coordinator {
+    private var homeCoordinator: HomeCoordinator?
     private let navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
@@ -21,7 +22,7 @@ class AppCoordinator: Coordinator {
     func start() {
         let vc = OnboardingBuilder(coordinator: self).build()
         navigationController.setViewControllers([vc], animated: true)
-    }
+    }  
     
     func goToGreeting() {
         let greetingVC = GreetingBuilder(coordinator: self).build()
@@ -71,5 +72,22 @@ class AppCoordinator: Coordinator {
     func navigateToLevel() {
         let levelVC = LevelBuilder(coordinator: self).build()
         navigationController.pushViewController(levelVC, animated: true)
+    }
+    
+    func navigateToTrainers() {
+        let trainerVC = TrainersBuilder(coordinator: self).build()
+        navigationController.pushViewController(trainerVC, animated: true)
+    }
+    
+    func startHomeFlow() {
+        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
+        self.homeCoordinator = homeCoordinator
+        homeCoordinator.start()
+    }
+    
+    func restartHomeFlow() {
+        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
+        self.homeCoordinator = homeCoordinator
+        homeCoordinator.start()
     }
 }

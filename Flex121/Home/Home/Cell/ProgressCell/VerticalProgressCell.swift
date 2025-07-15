@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VerticalProgressCell: UICollectionViewCell {
+class VerticalProgressCell: UITableViewCell {
     
     private var items: [ProgressCell.Item] = []
     
@@ -22,18 +22,19 @@ class VerticalProgressCell: UICollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ProgressCell.self, forCellWithReuseIdentifier: ProgressCell.identifier)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .background
         collectionView.isScrollEnabled = false
         return collectionView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
     }
     
     private func setupUI() {
+        selectionStyle = .none
         contentView.addSubview(progressCollectionView)
         progressCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

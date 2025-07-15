@@ -8,7 +8,15 @@
 import UIKit
 
 class TrainersBuilder {
-    func build() {
-        
+    private let coordinator: AppCoordinator
+    
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+    }
+    
+    func build() -> UIViewController {
+        let viewModel = TrainersViewModel(coordinator: coordinator)
+        let trainerVC = TrainersVC(viewModel: viewModel)
+        return trainerVC
     }
 }

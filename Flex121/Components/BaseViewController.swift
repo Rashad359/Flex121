@@ -10,20 +10,6 @@ import SnapKit
 
 class BaseViewController: UIViewController {
     
-    enum Fonts {
-        case archivo
-        case EuclidSemibold
-        
-        var fontName: String {
-            switch self {
-            case .archivo:
-                return "Archivo Black"
-            case .EuclidSemibold:
-                return "EuclidCircularA-SemiBold"
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background

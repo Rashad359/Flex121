@@ -8,6 +8,19 @@
 import UIKit
 
 class HomeController: UITabBarController {
+    
+    private let userDefaults = UserDefaultsManager.shared
+    private let coordinator: HomeCoordinator
+    
+    init(coordinator: HomeCoordinator) {
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabs()
@@ -16,6 +29,8 @@ class HomeController: UITabBarController {
     }
     
     private func setupTabBar() {
+        userDefaults.login(with: true)
+        
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .tabbarBackground
@@ -33,7 +48,8 @@ class HomeController: UITabBarController {
     
     private func setupTabs() {
         
-        let home = self.createNav(with: "Home", and: .home, vc: HomeVC())
+        
+        let home = self.createNav(with: "Home", and: .home, vc: HomeBuilder(coordinator: coordinator).build())
         let training = self.createNav(with: "Training", and: .dumbbell, vc: TrainingVC())
         let progress = self.createNav(with: "Progress", and: .diagram, vc: ProgressVC())
         let services = self.createNav(with: "Services", and: .shop, vc: ServicesVC())

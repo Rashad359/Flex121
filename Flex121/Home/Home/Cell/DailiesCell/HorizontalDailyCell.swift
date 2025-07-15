@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HorizontalDailyCell: UICollectionViewCell {
+class HorizontalDailyCell: UITableViewCell {
     
     private var items: [DailyCell.Item] = []
     
@@ -21,17 +21,18 @@ class HorizontalDailyCell: UICollectionViewCell {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(DailyCell.self, forCellWithReuseIdentifier: DailyCell.identifier)
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .background
         return collectionView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
     }
     
     private func setupUI() {
+        selectionStyle = .none
         contentView.addSubview(dailyCollectionView)
         dailyCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

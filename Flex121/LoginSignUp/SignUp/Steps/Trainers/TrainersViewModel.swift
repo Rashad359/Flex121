@@ -8,5 +8,13 @@
 import UIKit
 
 class TrainersViewModel {
+    private let coordinator: AppCoordinator
     
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+    }
+    
+    func goToHome() {
+        coordinator.restartHomeFlow()
+    }
 }

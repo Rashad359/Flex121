@@ -9,12 +9,24 @@ import UIKit
 
 class HomeVC: BaseViewController {
     
+    private let viewModel: HomeViewModel
+    
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     enum CellHandler {
         case profile(ProfileCell.Item)
         case entry(EntryCell.Item)
         case calendar([CalendarCell.Item])
         case daily([DailyCell.Item])
         case progress([ProgressCell.Item])
+        case quest(QuestCell.Item)
     }
     
     private var allCells: [CellHandler] = [
@@ -123,75 +135,90 @@ class HomeVC: BaseViewController {
                     mainColor: .main
                 )
             ]
-        )
+        ),
+        .quest(.init(stepsDone: "8,000"))
     ]
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
-        collectionView.register(EntryCell.self, forCellWithReuseIdentifier: EntryCell.identifier)
-        collectionView.register(HorizontalCalendarCell.self, forCellWithReuseIdentifier: HorizontalCalendarCell.identifier)
-        collectionView.register(HorizontalDailyCell.self, forCellWithReuseIdentifier: HorizontalDailyCell.identifier)
-        collectionView.register(VerticalProgressCell.self, forCellWithReuseIdentifier: VerticalProgressCell.identifier)
-        collectionView.backgroundColor = .background
-        return collectionView
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+//        tableView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+        tableView.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.identifier)
+        tableView.register(EntryCell.self, forCellReuseIdentifier: EntryCell.identifier)
+        tableView.register(HorizontalCalendarCell.self, forCellReuseIdentifier: HorizontalCalendarCell.identifier)
+        tableView.register(HorizontalDailyCell.self, forCellReuseIdentifier: HorizontalDailyCell.identifier)
+        tableView.register(VerticalProgressCell.self, forCellReuseIdentifier: VerticalProgressCell.identifier)
+        tableView.register(QuestCell.self, forCellReuseIdentifier: QuestCell.identifier)
+        tableView.backgroundColor = .background
+        tableView.separatorStyle = .none
+        return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        
         setupUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: 100)
-        collectionView.collectionViewLayout = layout
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func setupUI() {
         tabBarController?.view.backgroundColor = .clear
-        view.addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
 
-extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allCells.count
+extension HomeVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        allCells.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCells = allCells[indexPath.row]
         switch myCells {
         case .profile(let model):
-            let cell: ProfileCell = collectionView.dequeueCell(for: indexPath)
+            let cell: ProfileCell = tableView.dequeueCell(for: indexPath)
             cell.configure(model)
+            cell.subscribe(self)
             return cell
         case .entry(let model):
-            let cell: EntryCell = collectionView.dequeueCell(for: indexPath)
+            let cell: EntryCell = tableView.dequeueCell(for: indexPath)
             cell.configure(model)
             return cell
         case .calendar(let model):
-            let cell: HorizontalCalendarCell = collectionView.dequeueCell(for: indexPath)
+            let cell: HorizontalCalendarCell = tableView.dequeueCell(for: indexPath)
             cell.configure(with: model)
             return cell
         case .daily(let model):
-            let cell: HorizontalDailyCell = collectionView.dequeueCell(for: indexPath)
+            let cell: HorizontalDailyCell = tableView.dequeueCell(for: indexPath)
             cell.configure(model)
             return cell
         case .progress(let model):
-            let cell: VerticalProgressCell = collectionView.dequeueCell(for: indexPath)
+            let cell: VerticalProgressCell = tableView.dequeueCell(for: indexPath)
+            cell.configure(model)
+            return cell
+        case .quest(let model):
+            let cell: QuestCell = tableView.dequeueCell(for: indexPath)
             cell.configure(model)
             return cell
         }
+    }
+    
+    
+}
+
+extension HomeVC: ProfileCellDelegate {
+    func openProfile() {
+        viewModel.goToProfile()
     }
 }

@@ -15,6 +15,6 @@ class LevelViewModel {
     }
     
     func goToTrainers() {
-        //navigate to trainers
+        coordinator.navigateToTrainers()
     }
 }
