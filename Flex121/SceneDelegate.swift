@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var coordinator: AppCoordinator?
     var homeCoordinator: HomeCoordinator?
-    var userDefaults: UserDefaultsManager = UserDefaultsManager.shared
+    var userDefaults: UserDefaultsManager = DependencyContainer.shared.userDefaults
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

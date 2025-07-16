@@ -42,7 +42,7 @@ class TitleCell: UITableViewCell {
         [titleLabel, editIcon].forEach(mainStackView.addArrangedSubview)
         mainStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(0)
             make.top.equalToSuperview().offset(24)
         }
         editIcon.snp.makeConstraints { make in
@@ -52,5 +52,15 @@ class TitleCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+}
+
+extension TitleCell {
+    struct Item {
+        let title: String
+    }
+    
+    func configure(_ item: Item) {
+        titleLabel.text = item.title
     }
 }

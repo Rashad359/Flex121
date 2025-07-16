@@ -13,4 +13,8 @@ class DependencyContainer {
     lazy var firebaseManger: DBSession = {
         return FirebaseAdapter()
     }()
+    
+    lazy var userDefaults: UserDefaultsManager = {
+        return UserDefaultsManager()
+    }()
 }

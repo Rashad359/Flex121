@@ -9,7 +9,7 @@ import UIKit
 
 class HomeController: UITabBarController {
     
-    private let userDefaults = UserDefaultsManager.shared
+    private let userDefaults = DependencyContainer.shared.userDefaults
     private let coordinator: HomeCoordinator
     
     init(coordinator: HomeCoordinator) {

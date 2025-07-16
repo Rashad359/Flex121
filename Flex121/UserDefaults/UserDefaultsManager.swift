@@ -8,8 +8,7 @@
 import UIKit
 
 class UserDefaultsManager {
-    static let shared = UserDefaultsManager()
-    
+
     let userDefaults: UserDefaults
     
     init() {

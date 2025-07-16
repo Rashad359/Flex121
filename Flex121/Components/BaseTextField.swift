@@ -18,6 +18,8 @@ class BaseTextField: SkyFloatingLabelTextField {
         titleColor = .main
         textColor = .white
         backgroundColor = .background
+        lineColor = .clear
+        selectedLineColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
