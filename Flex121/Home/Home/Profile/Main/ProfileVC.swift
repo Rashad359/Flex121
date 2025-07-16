@@ -9,15 +9,15 @@ import UIKit
 
 class ProfileVC: BaseViewController {
     
-    private let coordinator: HomeCoordinator
+    private let viewModel: ProfileViewModel
     
-    init(coordinator: HomeCoordinator) {
-        self.coordinator = coordinator
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder: NSCoder) {
+        fatalError()
     }
     
     enum cellHandler {
@@ -93,7 +93,7 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
         case .editButton:
             let cell: EditPofileCell = tableView.dequeueCell(for: indexPath)
             cell.goToSettings = {[weak self] in
-                self?.coordinator.navigateToSettings()
+                self?.viewModel.goToSettings()
             }
             return cell
         case .settings(let model):
@@ -110,6 +110,21 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
             return 90
         default:
             return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let myCell = allCells[indexPath.row]
+        switch myCell {
+        case .settings(let model):
+            switch model.title {
+            case "My orders":
+                viewModel.goToOrders()
+            default:
+                return
+            }
+        default:
+            return
         }
     }
 }

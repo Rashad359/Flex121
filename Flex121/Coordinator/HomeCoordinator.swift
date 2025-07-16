@@ -29,4 +29,9 @@ class HomeCoordinator: Coordinator {
         let profileVC = ProfileBuilder(coordinator: self).build()
         navigationController.pushViewController(profileVC, animated: true)
     }
+    
+    func navigateToOrders() {
+        let ordersVC = MyOrdersVC()
+        navigationController.pushViewController(ordersVC, animated: true)
+    }
 }

@@ -16,7 +16,8 @@ class ProfileBuilder {
     }
     
     func build() -> UIViewController {
-        let vc = ProfileVC(coordinator: coordinator)
+        let viewModel = ProfileViewModel(coordinator: coordinator)
+        let vc = ProfileVC(viewModel: viewModel)
         return vc
     }
 }
