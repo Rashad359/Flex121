@@ -13,6 +13,7 @@ class DailyCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Breakfast"
         label.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        label.textColor = .black
         return label
     }()
     
@@ -20,6 +21,7 @@ class DailyCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "450 Calories"
         label.font = UIFont.systemFont(ofSize: 8, weight: .regular)
+        label.textColor = .black
         return label
     }()
     
@@ -33,6 +35,7 @@ class DailyCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "9:00 am"
         label.font = UIFont.systemFont(ofSize: 8, weight: .regular)
+        label.textColor = .black
         return label
     }()
     

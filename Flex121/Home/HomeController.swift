@@ -41,14 +41,21 @@ class HomeController: UITabBarController {
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
         
         self.tabBar.standardAppearance = appearance
+        self.tabBar.scrollEdgeAppearance = appearance
         self.tabBar.backgroundColor = .tabbarBackground
         self.tabBar.tintColor = .main
         self.tabBar.unselectedItemTintColor = .white
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     private func setupTabs() {
-        
-        
         let home = self.createNav(with: "Home", and: .home, vc: HomeBuilder(coordinator: coordinator).build())
         let training = self.createNav(with: "Training", and: .dumbbell, vc: TrainingVC())
         let progress = self.createNav(with: "Progress", and: .diagram, vc: ProgressVC())

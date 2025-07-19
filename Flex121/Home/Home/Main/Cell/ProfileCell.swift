@@ -101,11 +101,6 @@ class ProfileCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    private func profileGesture() {
-//        private let tapGesture = UITapGestureRecognizer(target: <#T##Any?#>, action: <#T##Selector?#>)
-//        profileImage.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
-//    }
-    
     private func setupUI() {
         selectionStyle = .none
         backgroundColor = .background

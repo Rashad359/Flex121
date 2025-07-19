@@ -87,7 +87,7 @@ final class GoalVC: BaseViewController {
         button.layer.cornerRadius = 25
         button.widthAnchor.constraint(equalToConstant: 50).isActive = true
         button.tintColor = .white
-        button.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapBackk), for: .touchUpInside)
         return button
     }()
     
@@ -113,7 +113,7 @@ final class GoalVC: BaseViewController {
     }()
     
     @objc
-    private func didTapBack() {
+    private func didTapBackk() {
         self.navigationController?.popViewController(animated: true)
     }
     

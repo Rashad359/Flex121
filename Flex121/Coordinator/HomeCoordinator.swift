@@ -34,4 +34,14 @@ class HomeCoordinator: Coordinator {
         let ordersVC = MyOrdersVC()
         navigationController.pushViewController(ordersVC, animated: true)
     }
+    
+    func navigateToShipping() {
+        let shippingVC = ShippingBuilder(coordinator: self).build()
+        navigationController.pushViewController(shippingVC, animated: true)
+    }
+    
+    func navigateToAddShipping() {
+        let addShipVC = AddShippingBuilder().build()
+        navigationController.pushViewController(addShipVC, animated: true)
+    }
 }

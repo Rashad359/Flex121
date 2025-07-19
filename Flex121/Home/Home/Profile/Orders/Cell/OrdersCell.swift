@@ -167,3 +167,19 @@ class OrdersCell: UITableViewCell {
         fatalError()
     }
 }
+
+extension OrdersCell {
+    struct Item {
+        let orderNumber: String
+        let orderDate: String
+        let quantity: String
+        let amount: String
+    }
+    
+    func configure(_ item: Item) {
+        orderNumber.text = "Order No\(item.orderNumber)"
+        orderDate.text = item.orderDate
+        quantityNumber.text = item.quantity
+        totalAmountNumber.text = "$\(item.amount)"
+    }
+}

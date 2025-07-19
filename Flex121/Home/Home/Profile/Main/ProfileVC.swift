@@ -58,10 +58,15 @@ class ProfileVC: BaseViewController {
         super.viewDidLoad()
         
         setupUI()
-        setupNavigation()
+        setupNav()
+        setupLeftNavButton()
     }
     
-    private func setupNavigation() {
+    override func setupLeftNavButton() {
+        super.setupLeftNavButton()
+    }
+    
+    private func setupNav() {
         title = "Profile"
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -120,6 +125,8 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
             switch model.title {
             case "My orders":
                 viewModel.goToOrders()
+            case "Shipping addresses":
+                viewModel.goToShipping()
             default:
                 return
             }

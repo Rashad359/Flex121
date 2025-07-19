@@ -9,6 +9,14 @@ import UIKit
 
 class MyOrdersVC: BaseViewController {
     
+    private var items: [OrdersCell.Item] = [
+        .init(orderNumber: "23232323", orderDate: "23/08/2024", quantity: "03", amount: "1130"),
+        .init(orderNumber: "23412312", orderDate: "04/10/2022", quantity: "09", amount: "369"),
+        .init(orderNumber: "13429859", orderDate: "21/04/2023", quantity: "14", amount: "520"),
+        .init(orderNumber: "124523458", orderDate: "15/04/2021", quantity: "23", amount: "240")
+        
+    ]
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -52,6 +60,11 @@ class MyOrdersVC: BaseViewController {
         super.viewDidLoad()
         
         setupUI()
+        setupLeftNavButton()
+    }
+    
+    override func setupLeftNavButton() {
+        super.setupLeftNavButton()
     }
     
     private func setupUI() {
@@ -74,11 +87,12 @@ class MyOrdersVC: BaseViewController {
 
 extension MyOrdersVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: OrdersCell = tableView.dequeueCell(for: indexPath)
+        cell.configure(items[indexPath.row])
         return cell
     }
     

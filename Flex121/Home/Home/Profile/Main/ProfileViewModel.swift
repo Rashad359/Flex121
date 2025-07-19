@@ -21,4 +21,8 @@ class ProfileViewModel {
     func goToSettings() {
         coordinator.navigateToSettings()
     }
+    
+    func goToShipping() {
+        coordinator.navigateToShipping()
+    }
 }

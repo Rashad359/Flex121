@@ -34,7 +34,7 @@ class SettingsCell: UITableViewCell {
     
     private let chevronIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .chevronLeft
+        imageView.image = .chevronRight
         return imageView
     }()
     

@@ -19,7 +19,7 @@ class EntryCell: UITableViewCell {
     
     private let forwardIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .chevronLeft
+        imageView.image = .chevronRight
         return imageView
     }()
     

@@ -37,6 +37,12 @@ class SettingsVC: BaseViewController {
         super.viewDidLoad()
         
         setupUI()
+        setupLeftNavButton()
+        
+    }
+    
+    override func setupLeftNavButton() {
+        super.setupLeftNavButton()
     }
     
     private func setupUI() {

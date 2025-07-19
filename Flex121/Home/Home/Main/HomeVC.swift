@@ -158,19 +158,12 @@ class HomeVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        edgesForExtendedLayout = []
         setupUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
     private func setupUI() {
-        tabBarController?.view.backgroundColor = .clear
+        tabBarController?.view.backgroundColor = .background
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
