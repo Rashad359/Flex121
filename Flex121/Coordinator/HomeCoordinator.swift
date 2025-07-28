@@ -44,4 +44,14 @@ class HomeCoordinator: Coordinator {
         let addShipVC = AddShippingBuilder().build()
         navigationController.pushViewController(addShipVC, animated: true)
     }
+    
+    func navigateToPayment() {
+        let paymentVC = PaymentBuilder(coordinator: self).build()
+        navigationController.pushViewController(paymentVC, animated: true)
+    }
+    
+    func navigateToAddPayment() {
+        let addPaymentVC = AddPaymentBuilder(coordinator: self).build()
+        navigationController.pushViewController(addPaymentVC, animated: true)
+    }
 }

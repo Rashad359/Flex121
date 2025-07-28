@@ -52,4 +52,11 @@ class RegisterScreenViewModel {
             }
         }
     }
+    
+    func setName(name: String) {
+        guard let uid = firebase.uid else { return }
+        firebase.putData(path: "users/\(uid)", data: [
+            "name": name
+        ])
+    }
 }

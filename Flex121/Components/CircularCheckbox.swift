@@ -9,11 +9,12 @@ import UIKit
 
 class CircularCheckbox: UIView {
     
-    private var isChecked = true
+    private var isChecked = false
     
     private var checkBox: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .checkMark
+        imageView.isHidden = true
         return imageView
     }()
     
@@ -21,7 +22,7 @@ class CircularCheckbox: UIView {
         super.init(frame: frame)
         
         layer.borderWidth = 0.5
-        layer.borderColor = UIColor.underline.cgColor
+        layer.borderColor = UIColor.white.cgColor
         layer.cornerRadius = frame.size.width / 2.0
         backgroundColor = .clear
         

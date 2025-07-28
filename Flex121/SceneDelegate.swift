@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             coordinator?.start()
             window?.rootViewController = navigationController
         }
-//        window?.rootViewController = CheckboxTest()
+//        window?.rootViewController = FirebaseTestVC()
         window?.makeKeyAndVisible()
     }
 

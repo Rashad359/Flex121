@@ -9,6 +9,26 @@ import UIKit
 import SkyFloatingLabelTextField
 
 class BaseTextField: SkyFloatingLabelTextField {
+    
+    private lazy var toolBar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.items = [
+            .init(
+                title: "Done",
+                style: .done,
+                target: self,
+                action: #selector(didTapDone)
+            )
+        ]
+        return toolbar
+    }()
+    
+    @objc
+    private func didTapDone() {
+        endEditing(true)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -20,6 +40,8 @@ class BaseTextField: SkyFloatingLabelTextField {
         backgroundColor = .background
         lineColor = .clear
         selectedLineColor = .clear
+        
+        inputAccessoryView = toolBar
     }
     
     required init?(coder aDecoder: NSCoder) {

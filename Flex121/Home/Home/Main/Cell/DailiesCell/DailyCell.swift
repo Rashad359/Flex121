@@ -90,9 +90,9 @@ class DailyCell: UICollectionViewCell {
 
 extension DailyCell {
     struct Item {
-        let titleName: String
-        let amountOfCalories: String
-        let timeForPrep: String
+        var titleName: String
+        var amountOfCalories: String
+        var timeForPrep: String
         let taskImage: UIImage
         let backgroundColor: UIColor
     }

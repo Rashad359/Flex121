@@ -75,7 +75,6 @@ class TopCell: UITableViewCell {
         genderView.addSubview(genderImage)
         [profileImage, textStackView].forEach(mainStackView.addArrangedSubview)
         mainStackView.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
             make.top.equalToSuperview().offset(28)
             make.bottom.equalToSuperview()
@@ -86,20 +85,27 @@ class TopCell: UITableViewCell {
         }
         
         genderView.snp.makeConstraints { make in
-//            make.top.equalTo(profileImage.snp.bottom).offset(-20)
             make.centerX.equalToSuperview()
             make.centerY.equalTo(profileImage.snp.bottom)
             make.size.equalTo(40)
         }
         
         genderImage.snp.makeConstraints { make in
-//            make.size.equalTo(24)
             make.center.equalToSuperview()
-//            make.edges.equalToSuperview()
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+}
+
+extension TopCell {
+    struct Item {
+        var userName: String
+    }
+    
+    func configure(_ item: Item) {
+        profileName.text = item.userName
     }
 }

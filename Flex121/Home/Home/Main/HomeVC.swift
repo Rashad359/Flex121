@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class HomeVC: BaseViewController {
     
@@ -66,28 +67,28 @@ class HomeVC: BaseViewController {
         .entry(.init(entryName: "Daily Tasks")),
         .daily([
             .init(
-                titleName: "Breakfast",
+                titleName: "dinner",
                 amountOfCalories: "450 Calories",
                 timeForPrep: "9:00 am",
                 taskImage: .salad,
                 backgroundColor: .softCyan
             ),
             .init(
-                titleName: "Breakfast",
+                titleName: "Dinner",
                 amountOfCalories: "450 Calories",
                 timeForPrep: "9:00 am",
                 taskImage: .treadmill,
                 backgroundColor: .softYellow
             ),
             .init(
-                titleName: "Breakfast",
+                titleName: "Dinner",
                 amountOfCalories: "450 Calories",
                 timeForPrep: "9:00 am",
                 taskImage: .redSalad,
                 backgroundColor: .softPink
             ),
             .init(
-                titleName: "Breakfast",
+                titleName: "Dinner",
                 amountOfCalories: "450 Calories",
                 timeForPrep: "9:00 am",
                 taskImage: .lifter,
@@ -143,7 +144,6 @@ class HomeVC: BaseViewController {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         tableView.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.identifier)
         tableView.register(EntryCell.self, forCellReuseIdentifier: EntryCell.identifier)
         tableView.register(HorizontalCalendarCell.self, forCellReuseIdentifier: HorizontalCalendarCell.identifier)
@@ -158,8 +158,47 @@ class HomeVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        db.collection("users").document(uid).collection("username").addSnapshotListener { snapshot, error in
+//            if let error {
+//                print(error)
+//            }
+//            
+//            guard let doc = snapshot?.documents else { return }
+//            print(doc)
+//        }
+        
+        let docRef = db.document("users/\(uid)")
+        docRef.addSnapshotListener { snapshot, error in
+            if let error {
+                print(error.localizedDescription)
+            }
+            
+            guard let data = snapshot?.data() else { return }
+            
+            guard let name = data["name"] as? String else { return }
+            
+            if let index = self.allCells.firstIndex(where: {
+                if case .profile = $0 { return true }
+                return false
+            }) {
+                if case .profile(var profileItem) = self.allCells[index] {
+                    profileItem.username = name
+                    self.allCells[index] = .profile(profileItem)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+        
         edgesForExtendedLayout = []
         setupUI()
+        viewModel.subscribe(self)
+        viewModel.getName()
+        viewModel.getDailies()
     }
     
     private func setupUI() {
@@ -213,5 +252,53 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
 extension HomeVC: ProfileCellDelegate {
     func openProfile() {
         viewModel.goToProfile()
+    }
+}
+
+extension HomeVC: HomeViewDelegate {
+    func didFetchName(data: [String : Any]) {
+        guard let name = data["name"] as? String else { return }
+        
+        if let index = self.allCells.firstIndex(where: {
+            if case .profile = $0 { return true }
+            return false
+        }) {
+            if case .profile(var model) = self.allCells[index] {
+                model.username = name
+                self.allCells[index] = .profile(model)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func didFetchDailies(data: [String : Any]) {
+        guard let activity = data["activity"] as? [String],
+              let payoff = data["payoff"] as? [String],
+              let time = data["time"] as? [String] else { return }
+        
+        if let index = self.allCells.firstIndex(where: {
+            if case .daily = $0 { return true }
+            return false
+        }) {
+            if case .daily(var model) = self.allCells[index] {
+                for index in 0...model.count - 1 {
+                    model[index].titleName = activity[index]
+                    model[index].amountOfCalories = payoff[index]
+                    model[index].timeForPrep = time[index]
+                }
+                self.allCells[index] = .daily(model)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func error(_ error: any Error) {
+        print(error.localizedDescription)
     }
 }

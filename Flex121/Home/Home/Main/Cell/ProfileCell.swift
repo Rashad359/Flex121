@@ -133,7 +133,7 @@ class ProfileCell: UITableViewCell {
 extension ProfileCell {
     struct Item {
         let profileImage: UIImage
-        let username: String
+        var username: String
         let dailyMessage: String
     }
     

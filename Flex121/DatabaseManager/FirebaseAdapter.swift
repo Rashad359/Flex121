@@ -7,8 +7,17 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class FirebaseAdapter: DBSession {
+    
+//    var uid: String? = Auth.auth().currentUser?.uid
+    var uid: String? {
+        return Auth.auth().currentUser?.uid
+    }
+    
+    private var db = Firestore.firestore()
+    
     func logIn(with email: String, password: String, completion: @escaping(Result<Bool, any Error>) -> ()) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error {
@@ -23,7 +32,30 @@ class FirebaseAdapter: DBSession {
             if let error {
                 completion(.failure(error))
             }
+//            self.uid = result?.user.uid
             completion(.success(true))
+        }
+    }
+    
+    func putData(path: String, data: [String: Any]) {
+        let docRef = db.document(path)
+        docRef.setData(data)
+    }
+    
+    func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ()) {
+        let docRef = db.document(path)
+        docRef.addSnapshotListener { snapshot, error in
+            if let error {
+                print("Something went wrong during fetching", error.localizedDescription)
+                completion(.failure(error))
+            }
+            
+            if let data = snapshot?.data() {
+                completion(.success(data))
+            } else {
+                completion(.failure(NSError(domain: "Firestore", code: 404, userInfo: [NSLocalizedDescriptionKey: "Document not found or has no data."])))
+            }
+            
         }
     }
 }

@@ -140,9 +140,6 @@ class TrainersCell: UICollectionViewCell {
         }
         
         ratingScore.snp.makeConstraints { make in
-//            make.top.equalToSuperview().offset(1)
-//            make.horizontalEdges.equalToSuperview().inset(8)
-//            make.bottom.equalToSuperview().offset(-2)
             make.center.equalToSuperview()
         }
     }

@@ -9,7 +9,9 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 
-class LoginVC: BaseViewController {
+class LoginVC: BaseViewController, Keybordable {
+    
+    var targetConstraint: Constraint? = nil
     
     private let viewModel: LoginViewModel
     
@@ -152,6 +154,7 @@ class LoginVC: BaseViewController {
         textFieldStackView.snp.makeConstraints { make in
             make.top.equalTo(backgroundImage.snp.bottom).offset(35)
             make.horizontalEdges.equalToSuperview().inset(24)
+            make.bottom.equalTo(bottomStackView.snp.top).inset(84)
         }
         
         view.addSubview(bottomStackView)
@@ -159,7 +162,7 @@ class LoginVC: BaseViewController {
         [bottomButtonStackView, proceedButton].forEach(bottomStackView.addArrangedSubview)
         bottomStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalToSuperview().offset(-45)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
         }
         
         appleButton.snp.makeConstraints { make in
@@ -171,6 +174,8 @@ class LoginVC: BaseViewController {
         }
         
         viewModel.subscribe(self)
+        
+//        startKeyboardObserve()
     }
     
     private func textFieldSetup() {

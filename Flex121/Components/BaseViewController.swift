@@ -7,8 +7,11 @@
 
 import UIKit
 import SnapKit
+import FirebaseFirestore
 
 class BaseViewController: UIViewController {
+    
+    let db = Firestore.firestore()
     
     private let rightBarView: UIView = {
         let view = UIView()

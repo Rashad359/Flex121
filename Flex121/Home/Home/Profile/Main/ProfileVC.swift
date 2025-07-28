@@ -21,14 +21,14 @@ class ProfileVC: BaseViewController {
     }
     
     enum cellHandler {
-        case top
+        case top(TopCell.Item)
         case metric([MetricsCell.Item])
         case editButton
         case settings(SettingsCell.Item)
     }
     
-    private let allCells: [cellHandler] = [
-        .top,
+    private var allCells: [cellHandler] = [
+        .top(.init(userName: "Some user")),
         .metric([
             .init(titleText: "Age", number: "19"),
             .init(titleText: "Height", number: "158 cm"),
@@ -60,6 +60,8 @@ class ProfileVC: BaseViewController {
         setupUI()
         setupNav()
         setupLeftNavButton()
+        viewModel.subscribe(self)
+        viewModel.getUserName()
     }
     
     override func setupLeftNavButton() {
@@ -88,8 +90,9 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = allCells[indexPath.row]
         switch myCell {
-        case .top:
+        case .top(let model):
             let cell: TopCell = tableView.dequeueCell(for: indexPath)
+            cell.configure(model)
             return cell
         case .metric(let model):
             let cell: HorizontalMetricsCell = tableView.dequeueCell(for: indexPath)
@@ -127,11 +130,39 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
                 viewModel.goToOrders()
             case "Shipping addresses":
                 viewModel.goToShipping()
+            case "Payment method":
+                viewModel.goToPayment()
+            case "Settings":
+                viewModel.navToSettings()
             default:
                 return
             }
         default:
             return
         }
+    }
+}
+
+extension ProfileVC: ProfileViewDelegate {
+    func didGetName(_ data: [String : Any]) {
+        guard let name = data["name"] as? String else { return }
+        
+        if let index = self.allCells.firstIndex(where: {
+            if case .top = $0 { return true }
+            return false
+        }) {
+            if case .top(var model) = self.allCells[index] {
+                model.userName = name
+                self.allCells[index] = .top(model)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func error(_ error: any Error) {
+        print(error.localizedDescription)
     }
 }

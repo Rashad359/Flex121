@@ -46,6 +46,7 @@ class HorizontalDailyCell: UITableViewCell {
     
     func configure(_ items: [DailyCell.Item]) {
         self.items = items
+        dailyCollectionView.reloadData()
     }
 }
 

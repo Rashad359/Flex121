@@ -243,6 +243,19 @@ class RegisterScreenVC: BaseViewController {
 extension RegisterScreenVC: RegisterScreenProtocol {
     func didSignUp() {
         self.viewModel.goToPosition()
+        guard let nameText = nameTextField.text else { return }
+        viewModel.setName(name: nameText)
+        
+//        let docRef = db.document("users/\(uid)")
+//        docRef.setData([
+//            "name": nameText
+//        ]) { error in
+//            if let error {
+//                print(error.localizedDescription)
+//            }
+//            
+//            print("All good")
+//        }
     }
     
     func error(_ error: any Error) {

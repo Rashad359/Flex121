@@ -107,16 +107,6 @@ class QuestCell: UITableViewCell {
         return stackView
     }()
     
-//    private let chestIcon: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.image = .chest //change it to chest later
-//        imageView.contentMode = .scaleAspectFit
-//        imageView.backgroundColor = .white
-//        imageView.layer.cornerRadius = 18
-//        imageView.clipsToBounds = true
-//        return imageView
-//    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -125,7 +115,7 @@ class QuestCell: UITableViewCell {
     
     private func setupUI() {
         selectionStyle = .none
-        backgroundColor = .background
+        backgroundColor = .clear
         
         contentView.addSubview(topStackView)
         contentView.addSubview(progressTrackerView)
@@ -137,6 +127,7 @@ class QuestCell: UITableViewCell {
         contentView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.horizontalEdges.equalToSuperview().inset(24)
+            make.bottom.equalToSuperview()
         }
         [runnerImage, textStackView, subtitleStackView].forEach(topStackView.addArrangedSubview)
         topStackView.snp.makeConstraints { make in
