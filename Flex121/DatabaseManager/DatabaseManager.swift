@@ -38,10 +38,6 @@ class DatabaseManager {
         service.fetchData(path: path, completion: completion)
     }
     
-    func changeEmail(to newEmail: String) {
-        service.changeEmail(to: newEmail)
-    }
-    
     func reauthenticateAndChangeEmail(password: String, newEmail: String) {
         service.reauthenticateAndChangeEmail(password: password, newEmail: newEmail)
     }
