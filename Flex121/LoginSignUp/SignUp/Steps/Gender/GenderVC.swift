@@ -9,6 +9,10 @@ import UIKit
 
 final class GenderVC: BaseViewController {
     
+    private var isMaleSelected: Bool = false
+    
+    private var isFemaleSelected: Bool = false
+    
     private let viewModel: GenderViewModel
     
     init(viewModel: GenderViewModel) {
@@ -157,6 +161,10 @@ final class GenderVC: BaseViewController {
     
     @objc
     private func didTapFemale() {
+        isMaleSelected = false
+        isFemaleSelected = true
+        nextButton.isEnabled = true
+        
         UIView.animate(withDuration: 0.5) {
             self.femaleBackground.backgroundColor = .main
             self.maleBackground.backgroundColor = .underline
@@ -165,6 +173,10 @@ final class GenderVC: BaseViewController {
     
     @objc
     private func didTapMale() {
+        isMaleSelected = true
+        isFemaleSelected = false
+        nextButton.isEnabled = true
+        
         UIView.animate(withDuration: 0.5) {
             self.maleBackground.backgroundColor = .main
             self.femaleBackground.backgroundColor = .underline
@@ -178,7 +190,15 @@ final class GenderVC: BaseViewController {
     
     @objc
     private func didTapNext() {
-        viewModel.goToAge()
+        if isMaleSelected {
+            viewModel.addGender(gender: "Male")
+            viewModel.goToAge()
+        } else if isFemaleSelected {
+            viewModel.addGender(gender: "Female")
+            viewModel.goToAge()
+        } else {
+            nextButton.isEnabled = false
+        }
     }
     
     override func viewDidLoad() {

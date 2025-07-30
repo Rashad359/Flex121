@@ -7,7 +7,18 @@
 
 import UIKit
 
-class InputCell: UITableViewCell {
+protocol InputCellDelegate: AnyObject {
+    func changeName(_ name: String)
+    func changeEmail(_ email: String)
+}
+
+class InputCell: UITableViewCell, UITextFieldDelegate {
+    
+    private weak var delegate: InputCellDelegate? = nil
+    
+    func subscribe(_ delegate: InputCellDelegate) {
+        self.delegate = delegate
+    }
     
     private let backView: UIView = {
         let view = UIView()
@@ -16,8 +27,9 @@ class InputCell: UITableViewCell {
         return view
     }()
     
-    private let textField: BaseTextField = {
+    private lazy var textField: BaseTextField = {
         let textField = BaseTextField()
+        textField.delegate = self
         textField.title = "Title"
         textField.textColor = .white
         textField.selectedTitleColor = .white
@@ -58,6 +70,23 @@ class InputCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let text = textField.text else { return false }
+        
+        switch textField.placeholder {
+        case "Name":
+            self.delegate?.changeName(text)
+            textField.text = ""
+        case "Email":
+            self.delegate?.changeEmail(text)
+            textField.text = ""
+        default:
+            return true
+        }
+        
+        return true
     }
 }
 

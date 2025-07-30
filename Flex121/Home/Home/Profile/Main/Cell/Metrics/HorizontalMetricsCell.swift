@@ -49,6 +49,7 @@ class HorizontalMetricsCell: UITableViewCell {
     
     func configure(_ items: [MetricsCell.Item]) {
         self.items = items
+        self.collectionView.reloadData()
     }
 }
 

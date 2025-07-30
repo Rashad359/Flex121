@@ -58,11 +58,11 @@ class HomeController: UITabBarController {
     private func setupTabs() {
         let home = self.createNav(with: "Home", and: .home, vc: HomeBuilder(coordinator: coordinator).build())
         let training = self.createNav(with: "Training", and: .dumbbell, vc: TrainingVC())
-        let progress = self.createNav(with: "Progress", and: .diagram, vc: ProgressVC())
+//        let progress = self.createNav(with: "Progress", and: .diagram, vc: ProgressVC())
         let services = self.createNav(with: "Services", and: .shop, vc: ServicesVC())
         let library = self.createNav(with: "Library", and: .heart, vc: LibraryVC())
         
-        self.setViewControllers([home, training, progress, services, library], animated: true)
+        self.setViewControllers([home, training, services, library], animated: true)
     }
     
     private func createNav(with title: String, and image: UIImage?, vc: UIViewController) -> UINavigationController {

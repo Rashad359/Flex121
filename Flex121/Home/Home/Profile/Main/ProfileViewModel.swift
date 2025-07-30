@@ -9,14 +9,17 @@ import UIKit
 
 protocol ProfileViewDelegate: AnyObject {
     func didGetName(_ data: [String: Any])
+    func didGetBio(_ data: [String: Any])
     func error(_ error: Error)
 }
 
 class ProfileViewModel {
     
+    private let userDefaults = DependencyContainer.shared.userDefaults
+    
     private let coordinator: HomeCoordinator
     
-    private let firebase = DependencyContainer.shared.firebaseManger
+    private let database = DependencyContainer.shared.databaseManager
     
     private weak var delegate: ProfileViewDelegate? = nil
     
@@ -49,9 +52,9 @@ class ProfileViewModel {
     }
     
     func getUserName() {
-        guard let uid = firebase.uid else { return }
+        guard let uid = database.uid else { return }
 
-        firebase.fetchData(path: "users/\(uid)") { result in
+        database.fetchData(path: "users/\(uid)") { result in
             switch result {
             case .success(let data):
                 
@@ -61,6 +64,28 @@ class ProfileViewModel {
                 
                 self.delegate?.error(error)
 
+            }
+        }
+    }
+    
+    func logOut() {
+        userDefaults.logout()
+        coordinator.logout()
+    }
+    
+    func fetchBiometrics() {
+        guard let uid = database.uid else { return }
+        
+        database.fetchData(path: "users/\(uid)") { result in
+            switch result {
+            case .success(let data):
+                
+                self.delegate?.didGetBio(data)
+                
+            case .failure(let error):
+                
+                self.delegate?.error(error)
+                
             }
         }
     }

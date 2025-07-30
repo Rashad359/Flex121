@@ -21,7 +21,7 @@ class RegisterScreenViewModel {
     }
     
     private let coordinator: AppCoordinator
-    private let firebase: DBSession = DependencyContainer.shared.firebaseManger
+    private let firebase = DependencyContainer.shared.databaseManager
     
     private weak var delegate: RegisterScreenProtocol? = nil
     

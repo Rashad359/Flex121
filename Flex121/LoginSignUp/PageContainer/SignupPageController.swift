@@ -19,15 +19,6 @@ class SignupPageController: UIPageViewController {
     
     private let startingPage: SignupPage
     
-//    init(startingPage: SignupPage) {
-//        self.startingPage = startingPage
-//        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError()
-//    }
-    
     init(coordinator: AppCoordinator, startingPage: SignupPage) {
         self.coordinator = coordinator
         self.startingPage = startingPage
@@ -40,7 +31,7 @@ class SignupPageController: UIPageViewController {
     
     private lazy var pages: [UIViewController] = [
         RegisterBuilder(coordinator: coordinator).build(),
-        LoginBuilder().build()
+        LoginBuilder(coordinator: coordinator).build()
     ]
     
     private let underLineView: UIView = {
@@ -111,16 +102,16 @@ class SignupPageController: UIPageViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     private func setupUI() {
         for view in self.view.subviews {
             if let scrollView = view as? UIScrollView {
                 scrollView.isScrollEnabled = false
             }
         }
-//        self.dataSource = self
-//        if let firstVC = pages.first {
-//            setViewControllers([firstVC], direction: .forward, animated: true)
-//        }
         view.addSubview(buttonStackView)
         [logInButton, signUpButton].forEach(buttonStackView.addArrangedSubview)
         buttonStackView.snp.makeConstraints { make in

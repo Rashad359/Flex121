@@ -8,8 +8,15 @@
 import UIKit
 
 class LoginBuilder {
+    
+    private let coordinator: AppCoordinator
+    
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+    }
+    
     func build() -> UIViewController {
-        let viewModel = LoginViewModel()
+        let viewModel = LoginViewModel(coordinator: coordinator)
         let vc = LoginVC(viewModel: viewModel)
         return vc
     }

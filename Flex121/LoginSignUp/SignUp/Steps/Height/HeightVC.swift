@@ -114,6 +114,8 @@ final class HeightVC: BaseViewController {
     @objc
     private func didTapNext() {
         viewModel.goToGoal()
+        let height = pickerView.selectedRow(inComponent: 0) + numbers[0]
+        viewModel.addHeight(height: height)
     }
     
     override func viewDidLoad() {

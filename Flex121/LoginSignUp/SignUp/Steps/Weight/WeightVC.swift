@@ -123,6 +123,8 @@ final class WeightVC: BaseViewController {
     @objc
     private func didTapNext() {
         viewModel.goToHeight()
+        let weight = pickerView.selectedRow(inComponent: 0) + numbers[0]
+        viewModel.addWeight(weight: weight)
     }
     
     override func viewDidLoad() {

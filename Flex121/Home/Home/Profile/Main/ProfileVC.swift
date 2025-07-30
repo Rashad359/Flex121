@@ -54,14 +54,50 @@ class ProfileVC: BaseViewController {
         return tableView
     }()
     
+    private let rightBarView: UIView = {
+        let view = UIView()
+        view.snp.makeConstraints { make in
+            make.size.equalTo(32)
+        }
+        view.backgroundColor = .underline
+        view.layer.cornerRadius = 16
+        return view
+    }()
+
+    private let quitImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "door.left.hand.open")
+        imageView.tintColor = .white
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
         setupNav()
         setupLeftNavButton()
+        setupRightNavButton()
         viewModel.subscribe(self)
         viewModel.getUserName()
+        viewModel.fetchBiometrics()
+    }
+    
+    func setupRightNavButton() {
+        rightBarView.addSubview(quitImage)
+        quitImage.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapQuit))
+        rightBarView.addGestureRecognizer(tapGesture)
+        let barButtonItem = UIBarButtonItem(customView: rightBarView)
+        navigationItem.rightBarButtonItem = barButtonItem
+    }
+    
+    @objc
+    private func didTapQuit() {
+        viewModel.logOut()
     }
     
     override func setupLeftNavButton() {
@@ -144,6 +180,7 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension ProfileVC: ProfileViewDelegate {
+    
     func didGetName(_ data: [String : Any]) {
         guard let name = data["name"] as? String else { return }
         
@@ -154,6 +191,28 @@ extension ProfileVC: ProfileViewDelegate {
             if case .top(var model) = self.allCells[index] {
                 model.userName = name
                 self.allCells[index] = .top(model)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func didGetBio(_ data: [String : Any]) {
+        guard let age = data["age"] as? Int,
+              let height = data["height"] as? Int,
+              let weight = data["weight"] as? Int else { return }
+        
+        if let index = self.allCells.firstIndex(where: {
+            if case .metric = $0 { return true }
+            return false
+        }) {
+            if case .metric(var model) = self.allCells[index] {
+                model[0].number = "\(age)"
+                model[1].number = "\(height) cm"
+                model[2].number = "\(weight) kg"
+                self.allCells[index] = .metric(model)
             }
         }
         

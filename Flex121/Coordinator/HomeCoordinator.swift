@@ -10,6 +10,7 @@ import UIKit
 class HomeCoordinator: Coordinator {
     
     private let navigationController: UINavigationController
+    weak var appCoordinator: AppCoordinator?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -21,7 +22,8 @@ class HomeCoordinator: Coordinator {
     }
     
     func navigateToSettings() {
-        let settingsVC = SettingsVC()
+        let viewModel = SettingsViewModel()
+        let settingsVC = SettingsVC(viewModel: viewModel)
         self.navigationController.pushViewController(settingsVC, animated: true)
     }
     
@@ -53,5 +55,9 @@ class HomeCoordinator: Coordinator {
     func navigateToAddPayment() {
         let addPaymentVC = AddPaymentBuilder(coordinator: self).build()
         navigationController.pushViewController(addPaymentVC, animated: true)
+    }
+    
+    func logout() {
+        appCoordinator?.logout()
     }
 }

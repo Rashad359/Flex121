@@ -8,22 +8,21 @@
 import UIKit
 
 protocol LoginViewModelDelegate: AnyObject {
-//    func render(_ state: )
     func didLogin()
     func error(_ error: Error)
 }
 
 class LoginViewModel {
     
+    private let coordinator: AppCoordinator
     
-    enum State {
-        case loading
-        case loaded
-        case error
-    }
+    private let firebase = DependencyContainer.shared.databaseManager
     
-    private let firebase: DBSession = DependencyContainer.shared.firebaseManger
     private weak var delegate: LoginViewModelDelegate? = nil
+    
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
+    }
     
     func subscribe(_ delegate: LoginViewModelDelegate) {
         self.delegate = delegate
@@ -43,5 +42,9 @@ class LoginViewModel {
                 self.delegate?.error(error)
             }
         }
+    }
+    
+    func goToHome() {
+        coordinator.startHomeFlow()
     }
 }

@@ -43,17 +43,17 @@ class TrainingVC: BaseViewController {
         return button
     }()
     
-    private lazy var timelineButton: BaseButton = {
-        let button = BaseButton(type: .system)
-        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        button.setTitle("Timeline", for: .normal)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.white.cgColor
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        button.addTarget(self, action: #selector(didTapTimeLine), for: .touchUpInside)
-        
-        return button
-    }()
+//    private lazy var timelineButton: BaseButton = {
+//        let button = BaseButton(type: .system)
+//        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        button.setTitle("Timeline", for: .normal)
+//        button.layer.borderWidth = 1
+//        button.layer.borderColor = UIColor.white.cgColor
+//        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+//        button.addTarget(self, action: #selector(didTapTimeLine), for: .touchUpInside)
+//        
+//        return button
+//    }()
     
     private let topStackView: BaseHorizontalStackView = {
         let stackView = BaseHorizontalStackView()
@@ -94,10 +94,10 @@ class TrainingVC: BaseViewController {
         updateAppearance(selected: 1)
     }
     
-    @objc
-    private func didTapTimeLine() {
-        
-    }
+//    @objc
+//    private func didTapTimeLine() {
+//        
+//    }
     
     private func switchPage(to index: Int) {
         guard index != currentIndex else { return }
@@ -129,10 +129,10 @@ class TrainingVC: BaseViewController {
     }
     
     private func setupUI() {
-        title = "Daily tasks"
+        navigationItem.title = "Daily tasts"
         
         view.addSubview(topStackView)
-        [nutritionButton, workoutButton, timelineButton].forEach(topStackView.addArrangedSubview)
+        [nutritionButton, workoutButton].forEach(topStackView.addArrangedSubview)
         
         topStackView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(25)

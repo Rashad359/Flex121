@@ -11,8 +11,6 @@ import FirebaseFirestore
 
 class BaseViewController: UIViewController {
     
-    let db = Firestore.firestore()
-    
     private let rightBarView: UIView = {
         let view = UIView()
         view.snp.makeConstraints { make in

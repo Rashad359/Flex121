@@ -21,25 +21,6 @@ class OnboardingVC: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    private let items: [OnboardingCell.Item] = [
-//        .init(
-//            image: .dumbells,
-//            title: "Meet your coach,start your journey WITH FLEX 121".uppercased(),
-//            isButtonHidden: true
-//        ),
-//        .init(
-//            image: .lifting,
-//            title: "Create a workout plan to stay fit".uppercased(),
-//            isButtonHidden: true
-//        ),
-//        .init(
-//            image: .running,
-//            title: "No more excuses, do it now".uppercased(),
-//            isButtonHidden: false
-//        ),
-//        
-//    ]
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 300, height: 300)
@@ -51,6 +32,7 @@ class OnboardingVC: BaseViewController {
         collectionView.delegate = self
         collectionView.backgroundColor = .background
         collectionView.alwaysBounceVertical = false
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
     

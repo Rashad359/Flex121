@@ -57,7 +57,7 @@ class MetricsCell: UICollectionViewCell {
 extension MetricsCell {
     struct Item {
         let titleText: String
-        let number: String
+        var number: String
     }
     
     func configure(_ item: Item) {

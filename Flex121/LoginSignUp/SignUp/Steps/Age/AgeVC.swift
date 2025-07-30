@@ -115,6 +115,8 @@ final class AgeVC: BaseViewController {
     @objc
     private func didTapNext() {
         viewModel.goToWeight()
+        let age: Int = pickerView.selectedRow(inComponent: 0) + numbers[0]
+        viewModel.addAge(age: age)
     }
     
     override func viewDidLoad() {
@@ -173,6 +175,10 @@ extension AgeVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 70
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {

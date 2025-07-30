@@ -9,9 +9,9 @@ import UIKit
 
 class QuestCell: UITableViewCell {
     
-    private let stepsDone: CGFloat = 1092
-    private let totalSteps: CGFloat = 10000
-    private lazy var currentProgress = stepsDone / totalSteps
+    private var stepsLeft: Int = 1092
+    private var totalSteps: Int = 10000
+    private lazy var currentProgress = CGFloat( (totalSteps - stepsLeft) / totalSteps )
     
     private let runnerImage: UIImageView = {
         let imageView = UIImageView()
@@ -79,7 +79,7 @@ class QuestCell: UITableViewCell {
     
     private let progressFillView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGreen //change color later
+        view.backgroundColor = .systemGreen 
         view.layer.cornerRadius = 6
         view.clipsToBounds = true
         return view
@@ -121,7 +121,6 @@ class QuestCell: UITableViewCell {
         contentView.addSubview(progressTrackerView)
         contentView.addSubview(bottomStackView)
         progressTrackerView.addSubview(progressFillView)
-//        contentView.addSubview(chestIcon)
         contentView.layer.cornerRadius = 24
         contentView.backgroundColor = .lightMain
         contentView.snp.makeConstraints { make in
@@ -150,7 +149,6 @@ class QuestCell: UITableViewCell {
         progressTrackerView.snp.makeConstraints { make in
             make.top.equalTo(topStackView.snp.bottom).offset(18)
             make.horizontalEdges.equalToSuperview().inset(16)
-//            make.bottom.equalToSuperview().offset(-10)
             make.height.equalTo(12)
         }
         
@@ -158,12 +156,6 @@ class QuestCell: UITableViewCell {
             make.leading.top.bottom.equalToSuperview()
             make.width.equalTo(progressTrackerView.snp.width).multipliedBy(currentProgress)
         }
-        
-//        chestIcon.snp.makeConstraints { make in
-//            make.centerY.equalTo(progressTrackerView)
-//            make.size.equalTo(36)
-//            make.trailing.equalTo(progressTrackerView.snp.trailing).offset(18)
-//        }
     }
     
     required init?(coder: NSCoder) {
@@ -173,10 +165,22 @@ class QuestCell: UITableViewCell {
 
 extension QuestCell {
     struct Item {
-        let stepsDone: String
+        var stepsLeft: Int
+//        let stepsLeftText: String
+        var totalSteps: Int
+        
     }
     
     func configure(_ item: Item) {
-        stepsLabel.text = item.stepsDone
+        stepsLabel.text = String(item.stepsLeft)
+        totalSteps = item.totalSteps
+        stepsLeft = item.stepsLeft
+        
+        currentProgress = CGFloat(item.totalSteps - item.stepsLeft) / CGFloat(item.totalSteps)
+        
+        progressFillView.snp.remakeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.width.equalTo(progressTrackerView.snp.width).multipliedBy(currentProgress)
+        }
     }
 }

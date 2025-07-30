@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 protocol Coordinator: AnyObject {
     func start()
@@ -20,9 +21,14 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let vc = OnboardingBuilder(coordinator: self).build()
-        navigationController.setViewControllers([vc], animated: true)
-    }  
+        if Auth.auth().currentUser != nil {
+            
+            startHomeFlow()
+        } else {
+            
+            goToLogin()
+        }
+    }
     
     func goToGreeting() {
         let greetingVC = GreetingBuilder(coordinator: self).build()
@@ -81,6 +87,7 @@ class AppCoordinator: Coordinator {
     
     func startHomeFlow() {
         let homeCoordinator = HomeCoordinator(navigationController: navigationController)
+        homeCoordinator.appCoordinator = self
         self.homeCoordinator = homeCoordinator
         homeCoordinator.start()
     }
@@ -90,4 +97,24 @@ class AppCoordinator: Coordinator {
         self.homeCoordinator = homeCoordinator
         homeCoordinator.start()
     }
+    
+    func logout() {
+        do {
+            try Auth.auth().signOut()
+            DependencyContainer.shared.userDefaults.logout()
+            
+            resetToLogin()
+        } catch let signOutError {
+            print("Error signing out:", signOutError.localizedDescription)
+        }
+    }
+    
+    
+    private func resetToLogin() {
+            homeCoordinator = nil
+
+            let loginVC = SignupPageBuilder(coordinator: self).build(with: .login)
+            navigationController.setViewControllers([loginVC], animated: true)
+        }
+
 }

@@ -9,7 +9,12 @@ import UIKit
 import FirebaseAuth
 
 class DatabaseManager {
-    static let shared = DatabaseManager(service: FirebaseAdapter())
+    
+    var uid: String? {
+        return Auth.auth().currentUser?.uid
+    }
+    
+//    static let shared = DatabaseManager(service: FirebaseAdapter())
     
     private let service: DBSession
     
@@ -23,5 +28,21 @@ class DatabaseManager {
     
     func signUp(with email: String, password: String, completion: @escaping(Result<Bool, Error>) -> ()) {
         service.signUp(with: email, password: password, completion: completion)
+    }
+    
+    func putData(path: String, data: [String: Any]) {
+        service.putData(path: path, data: data)
+    }
+    
+    func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ()) {
+        service.fetchData(path: path, completion: completion)
+    }
+    
+    func changeEmail(to newEmail: String) {
+        service.changeEmail(to: newEmail)
+    }
+    
+    func reauthenticateAndChangeEmail(password: String, newEmail: String) {
+        service.reauthenticateAndChangeEmail(password: password, newEmail: newEmail)
     }
 }

@@ -2,6 +2,17 @@ import UIKit
 
 class SettingsVC: BaseViewController {
     
+    private let viewModel: SettingsViewModel
+    
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     enum cellHandler {
         case title(TitleCell.Item)
         case input(InputCell.Item)
@@ -69,11 +80,32 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
         case .input(let model):
             let cell: InputCell = tableView.dequeueCell(for: indexPath)
             cell.configure(model)
+            cell.subscribe(self)
             return cell
         case .config(let model):
             let cell: ConfigCell = tableView.dequeueCell(for: indexPath)
             cell.configure(model)
             return cell
         }
+    }
+}
+
+
+extension SettingsVC: InputCellDelegate {
+    func changeEmail(_ email: String) {
+        let alert = UIAlertController(title: "Change Email", message: "Please provide your current password", preferredStyle: .alert)
+        alert.addTextField()
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let confirm = UIAlertAction(title: "Update", style: .default) { [weak self] item in
+            guard let alertText = alert.textFields?.first?.text else { return }
+            self?.viewModel.changeEmail(with: alertText, to: email)
+        }
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        self.present(alert, animated: true)
+    }
+    
+    func changeName(_ name: String) {
+        viewModel.changeName(to: name)
     }
 }

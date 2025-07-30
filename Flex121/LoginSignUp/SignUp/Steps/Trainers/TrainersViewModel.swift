@@ -16,5 +16,6 @@ class TrainersViewModel {
     
     func goToHome() {
         coordinator.restartHomeFlow()
+//        coordinator.startHomeFlow()
     }
 }

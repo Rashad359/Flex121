@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 class FirebaseAdapter: DBSession {
     
-//    var uid: String? = Auth.auth().currentUser?.uid
     var uid: String? {
         return Auth.auth().currentUser?.uid
     }
@@ -32,14 +31,47 @@ class FirebaseAdapter: DBSession {
             if let error {
                 completion(.failure(error))
             }
-//            self.uid = result?.user.uid
+            
             completion(.success(true))
+        }
+    }
+    
+    func reauthenticateAndChangeEmail(password: String, newEmail: String) {
+        guard let user = Auth.auth().currentUser,
+              let email = user.email else { return }
+        
+        print(email)
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        
+        user.reauthenticate(with: credential) { result, error in
+            if let error {
+                print("Reauthentication failed", error.localizedDescription)
+                return
+            }
+            
+            print("Reauthenticated, Updating email")
+            user.sendEmailVerification(beforeUpdatingEmail: newEmail) { error in
+                if let error {
+                    print("coudn't update email", error.localizedDescription)
+                    return
+                }
+                
+                print("Email verification sent to \(newEmail)")
+                
+//                user.reload { reloadError in
+//                    if let reloadError {
+//                        print("Reload Failed", reloadError.localizedDescription)
+//                    }
+//                    
+//                    print("User reloaded, Current email:", email)
+//                }
+            }
         }
     }
     
     func putData(path: String, data: [String: Any]) {
         let docRef = db.document(path)
-        docRef.setData(data)
+        docRef.setData(data, merge: true)
     }
     
     func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ()) {

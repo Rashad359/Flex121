@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class HomeVC: BaseViewController {
     
@@ -35,32 +36,32 @@ class HomeVC: BaseViewController {
         .entry(.init(entryName: "Calendar")),
         .calendar([
             .init(
-                date: "14",
-                dayOfWeek: "Sun"
+                date: "\(AppDate.getDay())",
+                dayOfWeek: AppDate.getWeekday()
             ),
             .init(
-                date: "15",
-                dayOfWeek: "Mon"
+                date: "\(AppDate.getDay(offset: 1))",
+                dayOfWeek: AppDate.getWeekday(offset: 1)
             ),
             .init(
-                date: "16",
-                dayOfWeek: "Tue"
+                date: "\(AppDate.getDay(offset: 2))",
+                dayOfWeek: AppDate.getWeekday(offset: 2)
             ),
             .init(
-                date: "17",
-                dayOfWeek: "Wed"
+                date: "\(AppDate.getDay(offset: 3))",
+                dayOfWeek: AppDate.getWeekday(offset: 3)
             ),
             .init(
-                date: "18",
-                dayOfWeek: "Thu"
+                date: "\(AppDate.getDay(offset: 4))",
+                dayOfWeek: AppDate.getWeekday(offset: 4)
             ),
             .init(
-                date: "19",
-                dayOfWeek: "Fri"
+                date: "\(AppDate.getDay(offset: 5))",
+                dayOfWeek: AppDate.getWeekday(offset: 5)
             ),
             .init(
-                date: "20",
-                dayOfWeek: "Sat"
+                date: "\(AppDate.getDay(offset: 6))",
+                dayOfWeek: AppDate.getWeekday(offset: 6)
             ),
             ]
         ),
@@ -137,7 +138,7 @@ class HomeVC: BaseViewController {
                 )
             ]
         ),
-        .quest(.init(stepsDone: "8,000"))
+        .quest(.init(stepsLeft: 3220, totalSteps: 10000))
     ]
     
     private lazy var tableView: UITableView = {
@@ -157,48 +158,23 @@ class HomeVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        db.collection("users").document(uid).collection("username").addSnapshotListener { snapshot, error in
-//            if let error {
-//                print(error)
-//            }
-//            
-//            guard let doc = snapshot?.documents else { return }
-//            print(doc)
-//        }
-        
-        let docRef = db.document("users/\(uid)")
-        docRef.addSnapshotListener { snapshot, error in
-            if let error {
-                print(error.localizedDescription)
-            }
-            
-            guard let data = snapshot?.data() else { return }
-            
-            guard let name = data["name"] as? String else { return }
-            
-            if let index = self.allCells.firstIndex(where: {
-                if case .profile = $0 { return true }
-                return false
-            }) {
-                if case .profile(var profileItem) = self.allCells[index] {
-                    profileItem.username = name
-                    self.allCells[index] = .profile(profileItem)
-                }
-            }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
-        
+
         edgesForExtendedLayout = []
         setupUI()
         viewModel.subscribe(self)
         viewModel.getName()
         viewModel.getDailies()
+        viewModel.getQuest()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func setupUI() {
@@ -256,6 +232,26 @@ extension HomeVC: ProfileCellDelegate {
 }
 
 extension HomeVC: HomeViewDelegate {
+    func didFetchQuest(data: [String : Any]) {
+        guard let stepsLeft = data["stepsLeft"] as? Int,
+              let totalSteps = data["stepsTotal"] as? Int else { return }
+        
+        if let index = self.allCells.firstIndex(where: {
+            if case .quest = $0 { return true }
+            return false
+        }) {
+            if case .quest(var model) = self.allCells[index] {
+                model.stepsLeft = stepsLeft
+                model.totalSteps = totalSteps
+                self.allCells[index] = .quest(model)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     func didFetchName(data: [String : Any]) {
         guard let name = data["name"] as? String else { return }
         

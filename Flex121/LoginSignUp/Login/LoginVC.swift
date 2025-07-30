@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 
-class LoginVC: BaseViewController, Keybordable {
+class LoginVC: BaseViewController {
     
-    var targetConstraint: Constraint? = nil
+//    var targetConstraint: Constraint? = nil
     
     private let viewModel: LoginViewModel
     
@@ -140,6 +140,7 @@ class LoginVC: BaseViewController, Keybordable {
         backgroundImage.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
+//            make.height.equalTo(460)
         }
         
         view.addSubview(titleText)
@@ -149,20 +150,19 @@ class LoginVC: BaseViewController, Keybordable {
             make.bottom.equalTo(backgroundImage.snp.bottom).offset(-68)
         }
         
-        view.addSubview(textFieldStackView)
-        [emailTextField, passwordTextField].forEach(textFieldStackView.addArrangedSubview)
-        textFieldStackView.snp.makeConstraints { make in
-            make.top.equalTo(backgroundImage.snp.bottom).offset(35)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalTo(bottomStackView.snp.top).inset(84)
-        }
-        
         view.addSubview(bottomStackView)
         [googleButton, appleButton].forEach(bottomButtonStackView.addArrangedSubview)
         [bottomButtonStackView, proceedButton].forEach(bottomStackView.addArrangedSubview)
         bottomStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-32)
+        }
+        
+        view.addSubview(textFieldStackView)
+        [emailTextField, passwordTextField].forEach(textFieldStackView.addArrangedSubview)
+        textFieldStackView.snp.makeConstraints { make in
+            make.top.equalTo(backgroundImage.snp.bottom).offset(35)
+            make.horizontalEdges.equalToSuperview().inset(24)
         }
         
         appleButton.snp.makeConstraints { make in
@@ -175,7 +175,6 @@ class LoginVC: BaseViewController, Keybordable {
         
         viewModel.subscribe(self)
         
-//        startKeyboardObserve()
     }
     
     private func textFieldSetup() {
@@ -213,6 +212,7 @@ extension LoginVC: LoginViewModelDelegate {
     func didLogin() {
         //Go to other screen
         print("Success")
+        viewModel.goToHome()
     }
     
     func error(_ error: any Error) {

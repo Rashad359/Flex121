@@ -19,16 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         let navigationController = UINavigationController()
-        if userDefaults.isUserLoggedIn() {
-            homeCoordinator = HomeCoordinator(navigationController: navigationController)
-            homeCoordinator?.start()
-            window?.rootViewController = navigationController
-        } else {
-            coordinator = AppCoordinator(navigationController: navigationController)
-            coordinator?.start()
-            window?.rootViewController = navigationController
-        }
-//        window?.rootViewController = FirebaseTestVC()
+        let appCoordinator = AppCoordinator(navigationController: navigationController)
+        self.coordinator = appCoordinator
+        appCoordinator.start()
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
