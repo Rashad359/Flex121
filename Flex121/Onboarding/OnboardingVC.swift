@@ -6,27 +6,20 @@
 //
 
 import UIKit
+import CHIPageControl
 
 class OnboardingVC: BaseViewController {
     
-    private let items: [OnboardingCell.Item] = [
-        .init(
-            image: .dumbells,
-            title: "Meet your coach,start your journey WITH FLEX 121".uppercased(),
-            isButtonHidden: true
-        ),
-        .init(
-            image: .lifting,
-            title: "Create a workout plan to stay fit".uppercased(),
-            isButtonHidden: true
-        ),
-        .init(
-            image: .running,
-            title: "No more excuses, do it now".uppercased(),
-            isButtonHidden: false
-        ),
-        
-    ]
+    private let viewModel: OnboardingViewModel
+    
+    init(viewModel: OnboardingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -39,13 +32,18 @@ class OnboardingVC: BaseViewController {
         collectionView.delegate = self
         collectionView.backgroundColor = .background
         collectionView.alwaysBounceVertical = false
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
     
-    private let pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
+    private let pageControl: CHIPageControlJaloro = {
+        let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0, y: 0, width: 1000, height: 1000))
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.numberOfPages = 3
+        pageControl.tintColor = .white
+        pageControl.radius = 4
+        pageControl.padding = 6
+        pageControl.currentPageTintColor = .main
 //        pageControl.allowsContinuousInteraction = false
         pageControl.isUserInteractionEnabled = false
         return pageControl
@@ -82,7 +80,9 @@ class OnboardingVC: BaseViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -64)
+            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -64),
+            pageControl.heightAnchor.constraint(equalToConstant: 10),
+            pageControl.widthAnchor.constraint(equalToConstant: 10)
             
             
         ])
@@ -101,15 +101,17 @@ class OnboardingVC: BaseViewController {
 
 extension OnboardingVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return viewModel.items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingCell.identifier, for: indexPath) as? OnboardingCell else { return UICollectionViewCell() }
-        cell.configure(items[indexPath.row])
+        cell.configure(viewModel.items[indexPath.row])
         cell.goToLogin = {[weak self] in
-            let vc = LoginViewController()
-            self?.navigationController?.setViewControllers([vc], animated: true)
+//            let vc = GreetingViewController()
+//            let vc = GreetingBuilder(coordinator: <#T##AppCoordinator#>).build()
+//            self?.navigationController?.setViewControllers([vc], animated: true)
+            self?.viewModel.goToGreeting()
         }
         return cell
     }
@@ -118,6 +120,7 @@ extension OnboardingVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let offset = scrollView.contentOffset.x
         let width = scrollView.frame.width
         
-        pageControl.currentPage = Int(offset) / Int(width)
+//        pageControl.currentPage = Int(offset) / Int(width)
+        pageControl.set(progress: Int(offset) / Int(width), animated: true)
     }
 }

@@ -6,6 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		023367D82E0BF8BC008DDB26 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 023367D72E0BF8BC008DDB26 /* FirebaseAnalyticsCore */; };
+		023367DA2E0BF8BC008DDB26 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 023367D92E0BF8BC008DDB26 /* FirebaseAuth */; };
+		023367DC2E0BF8BC008DDB26 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 023367DB2E0BF8BC008DDB26 /* FirebaseCore */; };
+		023367DE2E0BF8BC008DDB26 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 023367DD2E0BF8BC008DDB26 /* FirebaseDatabase */; };
+		023367E02E0BF8BC008DDB26 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 023367DF2E0BF8BC008DDB26 /* FirebaseFirestore */; };
+		0250F0182DE87AF10015CA9E /* CHIPageControl in Frameworks */ = {isa = PBXBuildFile; productRef = 0250F0172DE87AF10015CA9E /* CHIPageControl */; };
+		02E7C8902DF475F200D3564B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 02E7C88F2DF475F200D3564B /* SnapKit */; };
+		02E7C8932DF48A1800D3564B /* SkyFloatingLabelTextField in Frameworks */ = {isa = PBXBuildFile; productRef = 02E7C8922DF48A1800D3564B /* SkyFloatingLabelTextField */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		02A9B0732DD35112004C65DD /* Flex121.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flex121.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +47,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0250F0182DE87AF10015CA9E /* CHIPageControl in Frameworks */,
+				023367DA2E0BF8BC008DDB26 /* FirebaseAuth in Frameworks */,
+				02E7C8902DF475F200D3564B /* SnapKit in Frameworks */,
+				02E7C8932DF48A1800D3564B /* SkyFloatingLabelTextField in Frameworks */,
+				023367DC2E0BF8BC008DDB26 /* FirebaseCore in Frameworks */,
+				023367E02E0BF8BC008DDB26 /* FirebaseFirestore in Frameworks */,
+				023367DE2E0BF8BC008DDB26 /* FirebaseDatabase in Frameworks */,
+				023367D82E0BF8BC008DDB26 /* FirebaseAnalyticsCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +97,14 @@
 			);
 			name = Flex121;
 			packageProductDependencies = (
+				0250F0172DE87AF10015CA9E /* CHIPageControl */,
+				02E7C88F2DF475F200D3564B /* SnapKit */,
+				02E7C8922DF48A1800D3564B /* SkyFloatingLabelTextField */,
+				023367D72E0BF8BC008DDB26 /* FirebaseAnalyticsCore */,
+				023367D92E0BF8BC008DDB26 /* FirebaseAuth */,
+				023367DB2E0BF8BC008DDB26 /* FirebaseCore */,
+				023367DD2E0BF8BC008DDB26 /* FirebaseDatabase */,
+				023367DF2E0BF8BC008DDB26 /* FirebaseFirestore */,
 			);
 			productName = Flex121;
 			productReference = 02A9B0732DD35112004C65DD /* Flex121.app */;
@@ -107,6 +134,12 @@
 			);
 			mainGroup = 02A9B06A2DD35112004C65DD;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0250F0162DE87AF10015CA9E /* XCRemoteSwiftPackageReference "CHIPageControl" */,
+				02E7C88E2DF475F200D3564B /* XCRemoteSwiftPackageReference "SnapKit" */,
+				02E7C8912DF48A1800D3564B /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */,
+				023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 02A9B0742DD35112004C65DD /* Products */;
 			projectDirPath = "";
@@ -335,6 +368,84 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.15.0;
+			};
+		};
+		0250F0162DE87AF10015CA9E /* XCRemoteSwiftPackageReference "CHIPageControl" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChiliLabs/CHIPageControl.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
+		02E7C88E2DF475F200D3564B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		02E7C8912DF48A1800D3564B /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Skyscanner/SkyFloatingLabelTextField";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		023367D72E0BF8BC008DDB26 /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		023367D92E0BF8BC008DDB26 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		023367DB2E0BF8BC008DDB26 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		023367DD2E0BF8BC008DDB26 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		023367DF2E0BF8BC008DDB26 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 023367D62E0BF8BC008DDB26 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		0250F0172DE87AF10015CA9E /* CHIPageControl */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0250F0162DE87AF10015CA9E /* XCRemoteSwiftPackageReference "CHIPageControl" */;
+			productName = CHIPageControl;
+		};
+		02E7C88F2DF475F200D3564B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02E7C88E2DF475F200D3564B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		02E7C8922DF48A1800D3564B /* SkyFloatingLabelTextField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02E7C8912DF48A1800D3564B /* XCRemoteSwiftPackageReference "SkyFloatingLabelTextField" */;
+			productName = SkyFloatingLabelTextField;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 02A9B06B2DD35112004C65DD /* Project object */;
 }
