@@ -22,7 +22,7 @@ class ProfileCell: UITableViewCell {
     
     private lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .genericUser
+        imageView.image = .genUser
         imageView.layer.cornerRadius = 24
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true

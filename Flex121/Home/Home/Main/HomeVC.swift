@@ -32,7 +32,7 @@ class HomeVC: BaseViewController {
     }
     
     private var allCells: [CellHandler] = [
-        .profile(.init(profileImage: .genericUser, username: "Sam Height", dailyMessage: "Good morning.")),
+        .profile(.init(profileImage: .genUser, username: "Sam Height", dailyMessage: "Good morning.")),
         .entry(.init(entryName: "Calendar")),
         .calendar([
             .init(

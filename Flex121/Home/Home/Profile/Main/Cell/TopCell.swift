@@ -24,9 +24,10 @@ class TopCell: UITableViewCell {
     
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .genericUser
+        imageView.image = .genUser
         imageView.isUserInteractionEnabled = true
-        imageView.clipsToBounds = false
+        imageView.layer.cornerRadius = 70
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -71,7 +72,7 @@ class TopCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.addSubview(mainStackView)
-        profileImage.addSubview(genderView)
+        contentView.addSubview(genderView)
         genderView.addSubview(genderImage)
         [profileImage, textStackView].forEach(mainStackView.addArrangedSubview)
         mainStackView.snp.makeConstraints { make in
@@ -85,8 +86,8 @@ class TopCell: UITableViewCell {
         }
         
         genderView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalTo(profileImage.snp.bottom)
+            make.centerX.equalTo(profileImage.snp.centerX)
+            make.top.equalTo(profileImage.snp.bottom).offset(-20)
             make.size.equalTo(40)
         }
         
