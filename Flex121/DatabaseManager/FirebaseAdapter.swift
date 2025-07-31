@@ -36,11 +36,34 @@ class FirebaseAdapter: DBSession {
         }
     }
     
+    func updatePassword(from oldPassword: String, to newPassword: String, completion: @escaping(Result<Bool, Error>) -> ()) {
+        guard let user = Auth.auth().currentUser,
+              let email = user.email else { return }
+        
+        let credential = EmailAuthProvider.credential(withEmail: email, password: oldPassword)
+        
+        user.reauthenticate(with: credential) { result, error in
+            if let error {
+                print("Reauthentication failed", error.localizedDescription)
+                return
+            }
+            
+            user.updatePassword(to: newPassword) { error in
+                if let error {
+                    completion(.failure(error))
+                }
+                
+                print("Updating to new password...")
+                completion(.success(true))
+            }
+        }
+    }
+    
     func reauthenticateAndChangeEmail(password: String, newEmail: String) {
         guard let user = Auth.auth().currentUser,
               let email = user.email else { return }
         
-        print(email)
+        
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         
         user.reauthenticate(with: credential) { result, error in
@@ -57,14 +80,6 @@ class FirebaseAdapter: DBSession {
                 }
                 
                 print("Email verification sent to \(newEmail)")
-                
-//                user.reload { reloadError in
-//                    if let reloadError {
-//                        print("Reload Failed", reloadError.localizedDescription)
-//                    }
-//                    
-//                    print("User reloaded, Current email:", email)
-//                }
             }
         }
     }

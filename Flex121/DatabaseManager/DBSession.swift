@@ -14,4 +14,5 @@ protocol DBSession {
     func putData(path: String, data: [String: Any])
     func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ())
     func reauthenticateAndChangeEmail(password: String, newEmail: String)
+    func updatePassword(from oldPassword: String, to newPassword: String, completion: @escaping(Result<Bool, Error>) -> ())
 }

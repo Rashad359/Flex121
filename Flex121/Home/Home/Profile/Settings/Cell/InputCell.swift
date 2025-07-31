@@ -10,9 +10,16 @@ import UIKit
 protocol InputCellDelegate: AnyObject {
     func changeName(_ name: String)
     func changeEmail(_ email: String)
+    func changePassword(_ password: String)
 }
 
 class InputCell: UITableViewCell, UITextFieldDelegate {
+    
+    enum Register: String {
+        case name = "Name"
+        case email = "Email"
+        case password = "Password"
+    }
     
     private weak var delegate: InputCellDelegate? = nil
     
@@ -76,12 +83,21 @@ class InputCell: UITableViewCell, UITextFieldDelegate {
         guard let text = textField.text else { return false }
         
         switch textField.placeholder {
-        case "Name":
+        case Register.name.rawValue:
+            
             self.delegate?.changeName(text)
             textField.text = ""
-        case "Email":
+            
+        case Register.email.rawValue:
+            
             self.delegate?.changeEmail(text)
             textField.text = ""
+            
+        case Register.password.rawValue:
+            
+            self.delegate?.changePassword(text)
+            textField.text = ""
+            
         default:
             return true
         }

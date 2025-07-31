@@ -49,6 +49,7 @@ class SettingsVC: BaseViewController {
         
         setupUI()
         setupLeftNavButton()
+        viewModel.subscribe(self)
         
     }
     
@@ -107,5 +108,29 @@ extension SettingsVC: InputCellDelegate {
     
     func changeName(_ name: String) {
         viewModel.changeName(to: name)
+    }
+    
+    func changePassword(_ password: String) {
+        let alert = UIAlertController(title: "Change password", message: "Please provide your current password", preferredStyle: .alert)
+        alert.addTextField()
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let confirm = UIAlertAction(title: "Update", style: .default) { [weak self] item in
+            guard let alertText = alert.textFields?.first?.text else { return }
+            self?.viewModel.changePassword(from: alertText, to: password)
+        }
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        self.present(alert, animated: true)
+    }
+}
+
+
+extension SettingsVC: SettingsDelegate {
+    func didChangePassword(_ newPassword: String) {
+        self.createAlert(title: "Password changed", message: "You've changed your password to \(newPassword)")
+    }
+    
+    func error(_ error: any Error) {
+        self.createAlert(title: "Something went wrong", message: "Something went wrong while changing password \(error.localizedDescription)")
     }
 }
