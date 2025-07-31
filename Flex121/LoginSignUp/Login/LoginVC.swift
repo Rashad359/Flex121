@@ -133,6 +133,7 @@ class LoginVC: BaseViewController {
         super.viewDidLoad()
         
         setupUI()
+        moveKeyboard()
     }
     
     private func setupUI() {

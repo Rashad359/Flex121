@@ -161,6 +161,7 @@ class RegisterScreenVC: BaseViewController {
         super.viewDidLoad()
         
         setupUI()
+        moveKeyboard()
     }
     
     @objc
@@ -245,17 +246,6 @@ extension RegisterScreenVC: RegisterScreenProtocol {
         self.viewModel.goToPosition()
         guard let nameText = nameTextField.text else { return }
         viewModel.setName(name: nameText)
-        
-//        let docRef = db.document("users/\(uid)")
-//        docRef.setData([
-//            "name": nameText
-//        ]) { error in
-//            if let error {
-//                print(error.localizedDescription)
-//            }
-//            
-//            print("All good")
-//        }
     }
     
     func error(_ error: any Error) {

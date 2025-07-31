@@ -50,7 +50,6 @@ class SettingsVC: BaseViewController {
         setupUI()
         setupLeftNavButton()
         viewModel.subscribe(self)
-        
     }
     
     override func setupLeftNavButton() {
