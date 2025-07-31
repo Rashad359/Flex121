@@ -161,7 +161,6 @@ class RegisterScreenVC: BaseViewController {
         super.viewDidLoad()
         
         setupUI()
-        moveKeyboard()
     }
     
     @objc
