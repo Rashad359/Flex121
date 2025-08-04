@@ -32,7 +32,6 @@ class HomeVC: BaseViewController {
     }
     
     private var allCells: [CellHandler] = [
-        .profile(.init(profileImage: .genUser, username: "Sam Height", dailyMessage: "Good morning.")),
         .entry(.init(entryName: "Calendar")),
         .calendar([
             .init(
@@ -64,81 +63,7 @@ class HomeVC: BaseViewController {
                 dayOfWeek: AppDate.getWeekday(offset: 6)
             ),
             ]
-        ),
-        .entry(.init(entryName: "Daily Tasks")),
-        .daily([
-            .init(
-                titleName: "dinner",
-                amountOfCalories: "450 Calories",
-                timeForPrep: "9:00 am",
-                taskImage: .salad,
-                backgroundColor: .softCyan
-            ),
-            .init(
-                titleName: "Dinner",
-                amountOfCalories: "450 Calories",
-                timeForPrep: "9:00 am",
-                taskImage: .treadmill,
-                backgroundColor: .softYellow
-            ),
-            .init(
-                titleName: "Dinner",
-                amountOfCalories: "450 Calories",
-                timeForPrep: "9:00 am",
-                taskImage: .redSalad,
-                backgroundColor: .softPink
-            ),
-            .init(
-                titleName: "Dinner",
-                amountOfCalories: "450 Calories",
-                timeForPrep: "9:00 am",
-                taskImage: .lifter,
-                backgroundColor: .softCoral
-            )
-        ]
-        ),
-        .entry(.init(entryName: "Progress")),
-        .progress(
-            [
-                .init(
-                    title: "Calories",
-                    amount: "1200",
-                    measure: "kcal",
-                    mainColor: .softCoral
-                ),
-                .init(
-                    title: "Activities",
-                    amount: "1.2K",
-                    measure: "Steps",
-                    mainColor: .softGreen
-                ),
-                .init(
-                    title: "Water",
-                    amount: "0.9",
-                    measure: "liters",
-                    mainColor: .softBlue
-                ),
-                .init(
-                    title: "Protein",
-                    amount: "53",
-                    measure: "grams",
-                    mainColor: .brightGreen
-                ),
-                .init(
-                    title: "Carbs",
-                    amount: "175",
-                    measure: "grams",
-                    mainColor: .softRed
-                ),
-                .init(
-                    title: "Fats",
-                    amount: "28",
-                    measure: "grams",
-                    mainColor: .main
-                )
-            ]
-        ),
-        .quest(.init(stepsLeft: 3220, totalSteps: 10000))
+        )
     ]
     
     private lazy var tableView: UITableView = {
@@ -164,6 +89,7 @@ class HomeVC: BaseViewController {
         viewModel.subscribe(self)
         viewModel.getName()
         viewModel.getDailies()
+        viewModel.getProgress()
         viewModel.getQuest()
     }
     
@@ -232,62 +158,37 @@ extension HomeVC: ProfileCellDelegate {
 }
 
 extension HomeVC: HomeViewDelegate {
-    func didFetchQuest(data: [String : Any]) {
-        guard let stepsLeft = data["stepsLeft"] as? Int,
-              let totalSteps = data["stepsTotal"] as? Int else { return }
-        
-        if let index = self.allCells.firstIndex(where: {
-            if case .quest = $0 { return true }
-            return false
-        }) {
-            if case .quest(var model) = self.allCells[index] {
-                model.stepsLeft = stepsLeft
-                model.totalSteps = totalSteps
-                self.allCells[index] = .quest(model)
-            }
-        }
+    
+    func didFetchName(_ model: ProfileCell.Item) {
+        self.allCells.insert(.profile(model), at: 0)
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
-    func didFetchName(data: [String : Any]) {
-        guard let name = data["name"] as? String else { return }
-        
-        if let index = self.allCells.firstIndex(where: {
-            if case .profile = $0 { return true }
-            return false
-        }) {
-            if case .profile(var model) = self.allCells[index] {
-                model.username = name
-                self.allCells[index] = .profile(model)
-            }
-        }
+    func didFetchDailies(_ model: [DailyCell.Item]) {
+
+        self.allCells.append(.entry(.init(entryName: "Daily Tasks")))
+        self.allCells.append(.daily(model))
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
-    func didFetchDailies(data: [String : Any]) {
-        guard let activity = data["activity"] as? [String],
-              let payoff = data["payoff"] as? [String],
-              let time = data["time"] as? [String] else { return }
+    func didFetchProgress(_ model: [ProgressCell.Item]) {
         
-        if let index = self.allCells.firstIndex(where: {
-            if case .daily = $0 { return true }
-            return false
-        }) {
-            if case .daily(var model) = self.allCells[index] {
-                for index in 0...model.count - 1 {
-                    model[index].titleName = activity[index]
-                    model[index].amountOfCalories = payoff[index]
-                    model[index].timeForPrep = time[index]
-                }
-                self.allCells[index] = .daily(model)
-            }
+        self.allCells.append(.entry(.init(entryName: "Progress")))
+        self.allCells.append(.progress(model))
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
+    }
+    
+    func didFetchQuest(_ model: QuestCell.Item) {
+        self.allCells.append(.quest(model))
         
         DispatchQueue.main.async {
             self.tableView.reloadData()

@@ -13,6 +13,6 @@ protocol DBSession {
     func signUp(with email: String, password: String, completion: @escaping(Result<Bool, Error>) -> ())
     func putData(path: String, data: [String: Any])
     func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ())
-    func reauthenticateAndChangeEmail(password: String, newEmail: String)
+    func reauthenticateAndChangeEmail(password: String, newEmail: String, completion: @escaping(Result<Bool, Error>) -> ())
     func updatePassword(from oldPassword: String, to newPassword: String, completion: @escaping(Result<Bool, Error>) -> ())
 }

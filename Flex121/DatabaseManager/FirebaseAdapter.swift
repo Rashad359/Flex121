@@ -59,7 +59,7 @@ class FirebaseAdapter: DBSession {
         }
     }
     
-    func reauthenticateAndChangeEmail(password: String, newEmail: String) {
+    func reauthenticateAndChangeEmail(password: String, newEmail: String, completion: @escaping(Result<Bool, Error>) -> ()) {
         guard let user = Auth.auth().currentUser,
               let email = user.email else { return }
         
@@ -69,15 +69,16 @@ class FirebaseAdapter: DBSession {
         user.reauthenticate(with: credential) { result, error in
             if let error {
                 print("Reauthentication failed", error.localizedDescription)
-                return
+                completion(.failure(error))
             }
             
-            print("Reauthenticated, Updating email")
             user.sendEmailVerification(beforeUpdatingEmail: newEmail) { error in
                 if let error {
                     print("coudn't update email", error.localizedDescription)
-                    return
+                    completion(.failure(error))
                 }
+                
+                completion(.success(true))
                 
                 print("Email verification sent to \(newEmail)")
             }

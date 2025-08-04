@@ -9,6 +9,7 @@ import UIKit
 
 protocol SettingsDelegate: AnyObject {
     func didChangePassword(_ newPassword: String)
+    func didChangeEmail(to newEmail: String)
     func error(_ error: Error)
 }
 
@@ -29,19 +30,19 @@ class SettingsViewModel {
     }
     
     func changeEmail(with password: String, to newEmail: String) {
-        database.reauthenticateAndChangeEmail(password: password, newEmail: newEmail)
+        database.reauthenticateAndChangeEmail(password: password, newEmail: newEmail) { result in
+            switch result {
+            case .success(_):
+                
+                self.delegate?.didChangeEmail(to: newEmail)
+                
+            case .failure(let error):
+                
+                self.delegate?.error(error)
+                
+            }
+        }
     }
-    
-//    func changePassword(to newPassword: String) {
-//        database.updatePassword(to: newPassword) { result in
-//            switch result {
-//            case .success(_):
-//                self.delegate?.didChangePassword(newPassword)
-//            case .failure(let error):
-//                self.delegate?.error(error)
-//            }
-//        }
-//    }
     
     func changePassword(from oldPassword: String, to newPassword: String) {
         database.updatePassword(from: oldPassword, to: newPassword) { result in

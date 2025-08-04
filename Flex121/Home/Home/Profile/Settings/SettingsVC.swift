@@ -125,6 +125,10 @@ extension SettingsVC: InputCellDelegate {
 
 
 extension SettingsVC: SettingsDelegate {
+    func didChangeEmail(to newEmail: String) {
+        self.createAlert(title: "Email Verification sent", message: "We've send email verification to \(newEmail) account. Please follow the instructions")
+    }
+    
     func didChangePassword(_ newPassword: String) {
         self.createAlert(title: "Password changed", message: "You've changed your password to \(newPassword)")
     }
