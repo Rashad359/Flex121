@@ -128,3 +128,19 @@ class AddressCell: UITableViewCell {
         fatalError()
     }
 }
+
+extension AddressCell {
+    struct Item: Codable {
+        let customerName: String
+        let address: String
+        let zipCode: String
+        let country: String
+        let city: String
+        let district: String
+    }
+    
+    func configure(_ item: Item) {
+        customerName.text = item.customerName
+        descriptionLabel.text = "\(item.address), \(item.city), \(item.zipCode), \(item.district), \(item.country)"
+    }
+}

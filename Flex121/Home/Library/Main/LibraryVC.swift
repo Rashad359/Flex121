@@ -15,6 +15,17 @@ class LibraryVC: BaseViewController {
 //        return searchBar
 //    }()
     
+    private let viewModel: LibraryViewModel
+    
+    init(viewModel: LibraryViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     enum CaseHandler {
         case entry(LibraryEntryCell.Item)
         case category([AllFoodCell.Item])
@@ -90,6 +101,18 @@ extension LibraryVC: UITableViewDataSource, UITableViewDelegate {
             return 160
         default:
             return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let myCell = item[indexPath.row]
+        switch myCell {
+        case .entry(let model):
+            if model.entryName == "All food" {
+                viewModel.goToNutritionLib()
+            }
+        default:
+            return
         }
     }
 }

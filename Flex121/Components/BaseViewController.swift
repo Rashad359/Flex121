@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import FirebaseFirestore
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private let rightBarView: UIView = {
         let view = UIView()
@@ -32,6 +32,14 @@ class BaseViewController: UIViewController {
         view.backgroundColor = .background
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let nav = navigationController, let popGR = nav.interactivePopGestureRecognizer {
+            popGR.delegate = self
+            popGR.isEnabled = nav.viewControllers.count > 1
+        }
+    }
+    
     func setupLeftNavButton() {
         rightBarView.addSubview(plusImage)
         plusImage.snp.makeConstraints { make in
@@ -42,6 +50,7 @@ class BaseViewController: UIViewController {
         rightBarView.addGestureRecognizer(tapGesture)
         let barButtonItem = UIBarButtonItem(customView: rightBarView)
         navigationItem.leftBarButtonItem = barButtonItem
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     @objc
@@ -87,4 +96,15 @@ class BaseViewController: UIViewController {
         view.endEditing(true)
     }
     
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer === navigationController?.interactivePopGestureRecognizer else {
+            return true
+        }
+        
+        return (navigationController?.viewControllers.count ?? 0) > 1
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer === navigationController?.interactivePopGestureRecognizer
+    }
 }

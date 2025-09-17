@@ -26,7 +26,9 @@ class AppCoordinator: Coordinator {
             startHomeFlow()
         } else {
             
-            goToLogin()
+            let onboardingVC = OnboardingBuilder(coordinator: self).build()
+            navigationController.setViewControllers([onboardingVC], animated: true)
+//            goToLogin()
         }
     }
     

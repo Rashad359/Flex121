@@ -57,6 +57,16 @@ class HomeCoordinator: Coordinator {
         navigationController.pushViewController(addPaymentVC, animated: true)
     }
     
+    func navigateToNutritionLib() {
+        let nutritionLibVC = NutritionLibBuilder(coordinator: self).buid()
+        navigationController.pushViewController(nutritionLibVC, animated: true)
+    }
+    
+    func navigateToDetails() {
+        let detailsVC = DetailsBuilder().build()
+        navigationController.pushViewController(detailsVC, animated: true)
+    }
+    
     func logout() {
         appCoordinator?.logout()
     }

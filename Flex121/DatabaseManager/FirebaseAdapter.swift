@@ -90,6 +90,18 @@ class FirebaseAdapter: DBSession {
         docRef.setData(data, merge: true)
     }
     
+    func putData(path: String, data: [String: Any], completion: @escaping(Result<Bool, Error>) -> ()) {
+        let docRef = db.document(path)
+        docRef.setData(data, merge: true) { error in
+            if let error {
+                completion(.failure(error))
+            }
+            
+            completion(.success(true))
+        }
+        
+    }
+    
     func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ()) {
         let docRef = db.document(path)
         docRef.addSnapshotListener { snapshot, error in
@@ -105,5 +117,22 @@ class FirebaseAdapter: DBSession {
             }
             
         }
+    }
+    
+    func fetchSubCollections(path: String, document: String, completion: @escaping(Result<[String], Error>) -> ()) {
+        db.document(path).getDocument { snapshot, error in
+            if let error {
+                print(error)
+                completion(.failure(error))
+            }
+            
+            
+            guard let data = snapshot?.data(),
+                  let subCollections = data[document] as? [String] else { return }
+            
+            completion(.success(subCollections))
+            print("hello world")
+        }
+        
     }
 }

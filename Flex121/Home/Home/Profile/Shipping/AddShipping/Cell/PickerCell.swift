@@ -8,7 +8,19 @@
 import UIKit
 import SkyFloatingLabelTextField
 
+protocol PickerCellDelegate: AnyObject {
+    func addCountry(_ country: String)
+    func addCity(_ city: String)
+    func addDistrict(_ district: String)
+}
+
 class PickerCell: UITableViewCell {
+    
+    private weak var delegate: PickerCellDelegate? = nil
+    
+    func subscribe(_ delegate: PickerCellDelegate) {
+        self.delegate = delegate
+    }
     
     private var pickerItems: [String] = []
     
@@ -63,8 +75,30 @@ class PickerCell: UITableViewCell {
         textField.title = "Country"
         textField.rightViewMode = .always
         textField.rightView = chevronImageView
+//        textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        
         return textField
     }()
+    
+//    @objc
+//    private func didChangeText() {
+//        switch textField.placeholder {
+//        case "Country":
+//            
+//            self.delegate?.addCountry(textField.text ?? "no country in didChange")
+//            
+//        case "City":
+//            
+//            self.delegate?.addCity(textField.text ?? "no city in didChange")
+//            
+//        case "District":
+//            
+//            self.delegate?.addDistrict(textField.text ?? "no disctrict in didChange")
+//            
+//        default:
+//            return
+//        }
+//    }
     
     @objc
     private func didTapDone() {
@@ -118,6 +152,22 @@ extension PickerCell: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         textField.text = pickerItems[row]
+        switch textField.placeholder {
+        case "Country":
+            
+            self.delegate?.addCountry(textField.text ?? "no country in didChange")
+            
+        case "City":
+            
+            self.delegate?.addCity(textField.text ?? "no city in didChange")
+            
+        case "District":
+            
+            self.delegate?.addDistrict(textField.text ?? "no disctrict in didChange")
+            
+        default:
+            return
+        }
     }
 }
 

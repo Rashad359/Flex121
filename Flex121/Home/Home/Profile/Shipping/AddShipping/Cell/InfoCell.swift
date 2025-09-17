@@ -7,7 +7,19 @@
 
 import UIKit
 
-class InfoCell: UITableViewCell {
+protocol InfoCellDelegate: AnyObject {
+    func addFullname(_ name: String)
+    func addAddress(_ address: String)
+    func addZipCode(_ zipCode: String)
+}
+
+class InfoCell: UITableViewCell, UITextFieldDelegate {
+    
+    private weak var delegate: InfoCellDelegate? = nil
+    
+    func subscribe(_ delegate: InfoCellDelegate) {
+        self.delegate = delegate
+    }
     
     private let backView: UIView = {
         let view = UIView()
@@ -17,7 +29,7 @@ class InfoCell: UITableViewCell {
         return view
     }()
     
-    private let textField: BaseTextField = {
+    private lazy var textField: BaseTextField = {
         let textField = BaseTextField()
         textField.title = "Full name"
         textField.textColor = .white
@@ -31,8 +43,30 @@ class InfoCell: UITableViewCell {
                 .foregroundColor: UIColor.white
             ]
         )
+        textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        
         return textField
     }()
+    
+    @objc
+    private func didChangeText() {
+        switch textField.placeholder {
+        case "Full name":
+            
+            self.delegate?.addFullname(textField.text ?? "no name in didChange")
+            
+        case "Address":
+            
+            self.delegate?.addAddress(textField.text ?? "no address in didChange")
+            
+        case "Zip code(Postal Code)":
+            
+            self.delegate?.addZipCode(textField.text ?? "no zip code in didChange")
+            
+        default:
+            return
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -61,6 +95,27 @@ class InfoCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        switch textField.placeholder {
+//        case "Full name":
+//            
+//            self.delegate?.addFullname(textField.text ?? "no name")
+//            
+//        case "Address":
+//            
+//            self.delegate?.addAddress(textField.text ?? "no address")
+//            
+//        case "Zip code(Postal Code)":
+//            
+//            self.delegate?.addZipCode(textField.text ?? "no zip code")
+//            
+//        default:
+//            return true
+//        }
+//        
+//        return true
+//    }
 }
 
 extension InfoCell {

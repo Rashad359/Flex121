@@ -8,6 +8,9 @@
 import UIKit
 
 class ShippingViewModel {
+    
+    private let userDefaults = DependencyContainer.shared.userDefaults
+    
     private let coordinator: HomeCoordinator
     
     init(coordinator: HomeCoordinator) {
@@ -16,5 +19,13 @@ class ShippingViewModel {
     
     func goToAdd() {
         coordinator.navigateToAddShipping()
+    }
+    
+    func saveList(_ list: [AddressCell.Item]) {
+        userDefaults.saveState(list: list)
+    }
+    
+    func getList() -> [AddressCell.Item] {
+        return userDefaults.getState()
     }
 }

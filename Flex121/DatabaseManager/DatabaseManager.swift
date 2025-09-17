@@ -45,4 +45,12 @@ class DatabaseManager {
     func updatePassword(from oldPassword: String, to newPassword: String, completion: @escaping(Result<Bool, Error>) -> ()) {
         service.updatePassword(from: oldPassword, to: newPassword, completion: completion)
     }
+    
+    func putData(path: String, data: [String: Any], completion: @escaping(Result<Bool, Error>) -> ()) {
+        service.putData(path: path, data: data, completion: completion)
+    }
+    
+    func fetchSubCollections(path: String, document: String, completion: @escaping(Result<[String], Error>) -> ()) {
+        service.fetchSubCollections(path: path, document: document, completion: completion)
+    }
 }

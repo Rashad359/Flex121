@@ -16,6 +16,8 @@ class ShippingVC: BaseViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    private var items:[AddressCell.Item] = []
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -52,6 +54,37 @@ class ShippingVC: BaseViewController {
         setupUI()
         setupLeftNavButton()
         setupRightNavButton()
+        setupNotificationCenter()
+        items = viewModel.getList()
+    }
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNotification),
+            name: Notification.Name("test"),
+            object: nil
+        )
+    }
+    
+    @objc
+    private func handleNotification(_ sender: Notification) {
+        
+        self.items.insert(
+            .init(
+                customerName: sender.userInfo?["name"] as? String ?? "",
+                address: sender.userInfo?["address"] as? String ?? "",
+                zipCode: sender.userInfo?["zipCode"] as? String ?? "",
+                country: sender.userInfo?["country"] as? String ?? "",
+                city: sender.userInfo?["city"] as? String ?? "",
+                district: sender.userInfo?["district"] as? String ?? ""
+            ),
+            at: 0
+        )
+        
+        viewModel.saveList(items)
+        
+        self.tableView.reloadData()
     }
     
     override func setupLeftNavButton() {
@@ -75,20 +108,6 @@ class ShippingVC: BaseViewController {
         viewModel.goToAdd()
     }
     
-//    private func setupNavigation() {
-//        rightBarView.addSubview(plusImage)
-//        plusImage.snp.makeConstraints { make in
-//            make.center.equalToSuperview()
-//        }
-//        
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapPlus))
-//        rightBarView.addGestureRecognizer(tapGesture)
-//        let barButtonItem = UIBarButtonItem(customView: rightBarView)
-////        barButtonItem.target = self
-////        barButtonItem.action = #selector(didTapPlus)
-//        navigationItem.rightBarButtonItem = barButtonItem
-//    }
-    
     private func setupUI() {
         title = "Shipping address"
         view.addSubview(tableView)
@@ -96,20 +115,16 @@ class ShippingVC: BaseViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
-//    @objc
-//    private func didTapPlus() {
-//        viewModel.goToAdd()
-//    }
 }
 
 extension ShippingVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: AddressCell = tableView.dequeueCell(for: indexPath)
+        cell.configure(items[indexPath.row])
         return cell
     }
 }

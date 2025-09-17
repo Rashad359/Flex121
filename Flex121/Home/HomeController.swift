@@ -60,7 +60,7 @@ class HomeController: UITabBarController {
         let training = self.createNav(with: "Training", and: .dumbbell, vc: TrainingVC())
 //        let progress = self.createNav(with: "Progress", and: .diagram, vc: ProgressVC())
         let services = self.createNav(with: "Services", and: .shop, vc: ServicesVC())
-        let library = self.createNav(with: "Library", and: .heart, vc: LibraryVC())
+        let library = self.createNav(with: "Library", and: .heart, vc: LibraryBuilder(coordinator: coordinator).build())
         
         self.setViewControllers([home, training, services, library], animated: true)
     }

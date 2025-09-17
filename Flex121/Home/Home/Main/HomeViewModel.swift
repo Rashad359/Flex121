@@ -74,8 +74,6 @@ class HomeViewModel {
                 
                 let model = self.mapDataToProgressItem(data)
                 self.delegate?.didFetchProgress(model)
-                print(data)
-                print(model)
                 
             case .failure(let error):
                 

@@ -9,6 +9,14 @@ import UIKit
 
 class AddShippingVC: BaseViewController {
     
+    private var fullName: String? = nil
+    private var address: String? = nil
+    private var zipCode: String? = nil
+    
+    private var country: String? = nil
+    private var city: String? = nil
+    private var disctrict: String? = nil
+    
     enum CaseHandler {
         case info(InfoCell.Item)
         case picker(PickerCell.Item)
@@ -50,14 +58,33 @@ class AddShippingVC: BaseViewController {
         return tableView
     }()
     
-    private let saveButton: BaseButton = {
-        let button = BaseButton()
+    private lazy var saveButton: BaseButton = {
+        let button = BaseButton(type: .system)
         button.setTitle("Save address", for: .normal)
         button.titleLabel?.font = UIFont(name: Fonts.EuclidSemibold.fontName, size: 16)
         button.layer.cornerRadius = 24
         button.backgroundColor = .main
+        button.addTarget(self, action: #selector(didTapSave), for: .touchUpInside)
         return button
     }()
+    
+    @objc
+    private func didTapSave() {
+        NotificationCenter.default.post(
+            name: Notification.Name("test"),
+            object: nil,
+            userInfo: [
+                "name": fullName ?? "no name",
+                "address": address ?? "no address",
+                "zipCode": zipCode ?? "no zipcode",
+                "country": country ?? "no country",
+                "city": city ?? "no city",
+                "district": disctrict ?? "no district"
+            ]
+        )
+        
+        navigationController?.popViewController(animated: true)
+    }
     
     private let viewModel: AddShippingViewModel
     
@@ -112,12 +139,44 @@ extension AddShippingVC: UITableViewDelegate, UITableViewDataSource {
         switch myCell {
         case .info(let model):
             let cell: InfoCell = tableView.dequeueCell(for: indexPath)
+            cell.subscribe(self)
             cell.configure(model)
             return cell
         case .picker(let model):
             let cell: PickerCell = tableView.dequeueCell(for: indexPath)
+            cell.subscribe(self)
             cell.configure(model)
             return cell
         }
     }
+}
+
+extension AddShippingVC: InfoCellDelegate {
+    func addFullname(_ name: String) {
+        self.fullName = name
+    }
+    
+    func addAddress(_ address: String) {
+        self.address = address
+    }
+    
+    func addZipCode(_ zipCode: String) {
+        self.zipCode = zipCode
+    }
+}
+
+extension AddShippingVC: PickerCellDelegate {
+    func addCountry(_ country: String) {
+        self.country = country
+    }
+    
+    func addCity(_ city: String) {
+        self.city = city
+    }
+    
+    func addDistrict(_ district: String) {
+        self.disctrict = district
+    }
+    
+    
 }

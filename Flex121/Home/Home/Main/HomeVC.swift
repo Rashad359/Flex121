@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseFirestore
 
 class HomeVC: BaseViewController {
     
@@ -32,6 +30,7 @@ class HomeVC: BaseViewController {
     }
     
     private var allCells: [CellHandler] = [
+//        .profile(.init(profileImage: .genUser, username: "Rashad", dailyMessage: "Good Morning")),
         .entry(.init(entryName: "Calendar")),
         .calendar([
             .init(

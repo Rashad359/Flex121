@@ -8,11 +8,21 @@
 import UIKit
 
 protocol DBSession {
-    var uid: String? { get } 
+    var uid: String? { get }
+    
     func logIn(with email: String, password: String, completion: @escaping(Result<Bool, Error>) -> ())
+    
     func signUp(with email: String, password: String, completion: @escaping(Result<Bool, Error>) -> ())
+    
     func putData(path: String, data: [String: Any])
+    
     func fetchData(path: String, completion: @escaping(Result<[String: Any], Error>) -> ())
+    
     func reauthenticateAndChangeEmail(password: String, newEmail: String, completion: @escaping(Result<Bool, Error>) -> ())
+    
     func updatePassword(from oldPassword: String, to newPassword: String, completion: @escaping(Result<Bool, Error>) -> ())
+    
+    func putData(path: String, data: [String: Any], completion: @escaping(Result<Bool, Error>) -> ())
+    
+    func fetchSubCollections(path: String, document: String, completion: @escaping(Result<[String], Error>) -> ())
 }
